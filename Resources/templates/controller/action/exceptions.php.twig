@@ -1,0 +1,10 @@
+{% for exception in exceptions %}
+        catch(Exception\{{ exception['class'] }} $e) {
+            $status ={{ exception['status'] }};
+            {{ exception['schema'] }}
+        }
+{% endfor %}
+        catch(\Exception $e) {
+            $status = 500;
+            $data = array('error' => array('message' => $e->getMessage(), 'code' =>$e->getCode()));
+        }

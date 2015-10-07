@@ -1,0 +1,15 @@
+{% if success %}
+try {
+            {{ parameters }}
+
+            $status = {{ status }};
+
+            {{ schema }}
+
+        }
+{{ exceptions }}
+{% else %}
+        $status = {{ status }};
+        // @todo : implement your business model here :";
+        $data = array();
+{% endif %}

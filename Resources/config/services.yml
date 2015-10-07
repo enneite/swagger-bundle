@@ -1,0 +1,16 @@
+services:
+#    enneite_swagger.example:
+#        class: Enneite\SwaggerBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+  enneite_swagger.service_manager:
+      class:  Enneite\SwaggerBundle\DependencyInjection\ServiceManager
+      arguments: []
+
+  enneite_swagger.file_system:
+        class:  Symfony\Component\Filesystem\Filesystem
+        arguments: []
+
+  enneite_swagger.file_creator:
+          class:  Enneite\SwaggerBundle\Creator\FileCreator
+          arguments: [@enneite_swagger.file_system]

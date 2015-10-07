@@ -1,0 +1,9 @@
+
+{% if model is empty %}
+            // @todo : implement your business model here :
+            $data = array();
+{% else %}
+            // @todo : implement your business model here :
+            $model = new ApiModel\{{ model }}();
+            $data = $model->toArray();
+{% endif %}

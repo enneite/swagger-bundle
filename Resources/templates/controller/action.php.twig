@@ -1,0 +1,21 @@
+
+    /**
+     * description: {{ comments['description'] }}
+     *
+{% if comments['routing'] != null %}
+     * @Route("{{ comments['routing']['route'] }}"{% for param,value in comments['routing']['parameters'] %}, {{ param }}="{{ value }}"{% endfor %})
+     * @Method({"{{ comments['routing']['method'] }}"})
+{% endif %}
+     *
+     * @param Request $request
+{% for param in comments['params'] %}
+     * @param {{ param }}
+{%  endfor %}
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function {{ verb }}Action(Request $request{% for argument in arguments %}, ${{ argument }}{% endfor %})
+    {
+        {{ action }}
+
+        return $this->sendJsonResponse($data, $status);
+    }

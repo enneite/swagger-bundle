@@ -1,0 +1,18 @@
+<?php
+/**
+* Generate by SwaggerBundle (you can still edit this file!)
+*/
+
+namespace {{ namespace }} ;
+
+{% for class in use %}
+use {{ class }};
+{% endfor %}
+
+
+class {{ className }} extends SwaggerApiController
+{
+{% for php in actions %}
+    {{ php }}
+{% endfor %}
+}

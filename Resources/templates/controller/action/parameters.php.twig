@@ -1,0 +1,40 @@
+{% for parameter in parameters %}
+
+{% if parameter['description'] is not empty %}
+            /* description : {{ parameter['description'] }} */
+{% endif %}
+{% if parameter['in'] == 'query' %}
+    {% if parameter['required'] %}
+        if(!$request->query->has('{{ parameter['name'] }}')) {
+                throw new \InvalidArgumentException('parameter {{ parameter['name'] }} is missing in query!');
+            }
+            ${{ parameter['name'] }} = $request->query->get('{{ parameter['name'] }}');
+    {% else %}
+        ${{ parameter['name'] }} = $request->query->has('{{ parameter['name'] }}') ? $request->query->get('{{ parameter['name'] }}') : null ;
+    {% endif %}
+{% elseif parameter['in'] == 'header' %}
+    {% if parameter['required'] %}
+        if(!$request->headers->has('{{ parameter['name'] }}')) {
+                throw new \InvalidArgumentException('parameter {{ parameter['name'] }} is missing in header!');
+            }
+            ${{ parameter['name'] }} = $request->headers->get('{{ parameter['name'] }}');
+    {% else %}
+        ${{ parameter['name'] }} = $request->headers->has('{{ parameter['name'] }}') ? $request->headers->get('{{ parameter['name'] }}') : null ;
+    {% endif %}
+{% elseif parameter['in'] == 'formData' %}
+    {% if parameter['required'] %}
+        if(!$request->request->has('{{ parameter['name'] }}')) {
+                throw new \InvalidArgumentException('parameter {{ parameter['name'] }} is missing in request!');
+            }
+            ${{ parameter['name'] }} = $request->request->get('{{ parameter['name'] }}');
+    {% else %}
+        ${{ parameter['name'] }} = $request->request->has('{{ parameter['name'] }}') ? $request->request->get('{{ parameter['name'] }}') : null ;
+    {% endif %}
+{% elseif parameter['in'] == 'body' %}
+            ${{ parameter['name'] }} = $this->getJsonContent($request);
+{% elseif parameter['in'] == 'path' %}
+   {# do nothing in thi case #}
+{% else %}
+            ${{ parameter['name'] }} = null;
+{% endif %}
+{% endfor %}
