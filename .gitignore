@@ -1,0 +1,5 @@
+# PHPStorm
+.idea
+composer.phar
+vendor
+Tests/coverage
