@@ -1,8 +1,4 @@
 services:
-#    enneite_swagger.example:
-#        class: Enneite\SwaggerBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
-
   enneite_swagger.service_manager:
       class:  Enneite\SwaggerBundle\DependencyInjection\ServiceManager
       arguments: []
