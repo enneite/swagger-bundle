@@ -72,7 +72,7 @@ class Mapping
                 if ($value instanceof \DateTime) { // format special pour les dates ...
                     $model->{$setter}($value->format($dateFormat));
                 }
-                else if (is_object($value) && $model->{$getter}() instanceof  ResourceInterface) {
+                else if (is_object($value) && $model->{$getter}() instanceof  ModelInterface) {
                     self::buildFromObject($attribute, $value, $dateFormat);
                 }
                 else if(is_array($value)) { // : can only map array of scalar => @todo map array of object
