@@ -7,6 +7,10 @@ Installation
 
  - Install this bundle with composer!
 
+```bash
+composer require enneite/swagger-bundle
+```
+
  - Edit your app/AppKernel.php to register the bundle in the registerBundles() method!
 
  - Define the swagger generator parameters in parameters.yml :
