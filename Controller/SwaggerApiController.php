@@ -17,10 +17,14 @@ class SwaggerApiController extends Controller
      *
      * @return JsonResponse
      */
-    protected function sendJsonResponse(array $data, $status = 200)
+    protected function sendJsonResponse(array $data, $status = 200, $headers=array())
     {
         $response = new JsonResponse($data);
         $response->setStatusCode($status);
+
+        foreach($headers as $key => $value) {
+            $response->headers->set($key, $value);
+        }
 
         return $response;
     }
