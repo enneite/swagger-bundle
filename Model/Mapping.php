@@ -33,7 +33,7 @@ class Mapping
             if (array_key_exists($property->getName(), $data)) {
                 $value     = $data[$property->getName()];
                 $attribute = $model->{$getter}();
-                if (is_array($value) && $attribute instanceof  ResourceInterface) {
+                if (is_array($value) && $attribute instanceof  ModelInterface) {
                     self::buildFromArray($attribute, $value);
                 } else {
                     $model->{$setter}($value);
