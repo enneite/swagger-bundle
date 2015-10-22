@@ -58,7 +58,7 @@ class SwaggerApiController extends Controller
 
     /**
      * Get request data with control for required field
-     *
+     * @todo : add unit test
      *
      * @param Request $request
      * @param $dataName
