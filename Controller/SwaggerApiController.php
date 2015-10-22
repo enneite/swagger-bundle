@@ -57,6 +57,46 @@ class SwaggerApiController extends Controller
     }
 
     /**
+     * Get request data with control for required field
+     *
+     *
+     * @param Request $request
+     * @param $dataName
+     * @param $type
+     * @param bool $required
+     * @param null $defaultValue
+     * @return null
+     * @throws \InvalidArgumentException
+     */
+    protected function getRequestData(Request $request, $dataName, $type, $required = true, $defaultValue = null)
+    {
+        $types = array('json', 'query', 'files', 'request');
+
+        if ($type == 'json') {
+            $json = $this->getJsonContent($request);
+            if (isset($json[$dataName])) {
+                return $json[$dataName];
+            }
+        } elseif (in_array($type,$types)) {
+            if ($request->$type->has($dataName)) {
+                if($request->$type->get($dataName) == null && $required == true && $type == 'files') {
+                    throw new \InvalidArgumentException($dataName . ' file is empty ');
+                } else {
+                    return $request->$type->get($dataName);
+                }
+            }
+        } else {
+            throw new \InvalidArgumentException('unknown type ' . $type);
+        }
+
+        if ($required) {
+            throw new \InvalidArgumentException('parameter ' . $dataName . ' is missing in request!');
+        } else {
+            return $defaultValue;
+        }
+    }
+
+    /**
      * no csrf token protection for REST API.
      *
      * @param $options
