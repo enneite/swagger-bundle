@@ -22,7 +22,7 @@ class Mapping
      *
      * @return ResourceInterface
      */
-    public static function buildFromArray(ModelInterface $model, $data)
+    public static function buildFromArray(ModelInterface $model, array $data)
     {
         $reflection = new \ReflectionClass($model);
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
