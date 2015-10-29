@@ -88,9 +88,9 @@ class Manager implements ContainerAwareInterface
     public function __construct($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator)
     {
         $this->setContainer($container);
-        $this->fileCreator          = $fileCreator;
-        $this->apiModelCreator   = $apiModelCreator;
-        $this->apiRoutingCreator    = $apiRoutingCreator;
+        $this->fileCreator = $fileCreator;
+        $this->apiModelCreator = $apiModelCreator;
+        $this->apiRoutingCreator = $apiRoutingCreator;
         $this->apiControllerCreator = $apiControllerCreator;
 
         return $this;
@@ -128,6 +128,14 @@ class Manager implements ContainerAwareInterface
         $this->outputPath = $outputPath;
 
         return $this;
+    }
+
+    /**
+     * outputPath getter.
+     */
+    public function getOutputPath()
+    {
+        return $this->outputPath;
     }
 
     /**
@@ -218,7 +226,7 @@ class Manager implements ContainerAwareInterface
         }
         $this->setOutputPath($outPath . '/');
 
-        $this->modelsNamespace   = $this->mainNamespace . '\Api\Model';
+        $this->modelsNamespace = $this->mainNamespace . '\Api\Model';
         $this->controllersNamespace = $this->mainNamespace . '\Controller\Api';
 
         $type = (isset($swaggerConf['routing'])) ? $swaggerConf['routing'] : 'yaml';
@@ -275,6 +283,7 @@ class Manager implements ContainerAwareInterface
 
         throw new \Exception('Swagger file not found!');
     }
+
     /**
      * create namespace.
      *
@@ -289,7 +298,7 @@ class Manager implements ContainerAwareInterface
         if (count($names) > 0) {
             $namespace .= '\\' . implode('\\', array_map(function ($name) {
                     return ucfirst($name);
-            }, $names));
+                }, $names));
         }
 
         return $namespace;
@@ -388,7 +397,7 @@ class Manager implements ContainerAwareInterface
     public function createControllers($paths, $buildRoutingAnnotations, $output)
     {
         $nbNewControllers = 0;
-        $nbNewActions     = 0;
+        $nbNewActions = 0;
 
         foreach ($paths as $pathName => $pathArray) {
             $path = $this->outputPath;
@@ -418,8 +427,8 @@ class Manager implements ContainerAwareInterface
                 }
 
                 if ($actions != '') {
-                    $php    = $this->fileCreator->get($reflexion->getFileName());
-                    $end    = strrpos($php, '}');
+                    $php = $this->fileCreator->get($reflexion->getFileName());
+                    $end = strrpos($php, '}');
                     $newPhp = substr($php, 0, $end) . "\n" . $actions . "\n" . substr($php, $end);
                     $this->fileCreator->createFile($reflexion->getFileName(), $newPhp);
                     $output->writeln('<info>actions created for ' . $this->controllersNamespace . '\\' . $className . '</info>');
