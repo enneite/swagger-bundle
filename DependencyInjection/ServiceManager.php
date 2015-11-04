@@ -7,12 +7,10 @@
  * Time: 08:43
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Enneite\SwaggerBundle\Creator\ApiControllerCreator;
 use Enneite\SwaggerBundle\Creator\ApiModelCreator;
 use Enneite\SwaggerBundle\Creator\ApiRoutingCreator;
@@ -21,7 +19,6 @@ use Enneite\SwaggerBundle\Creator\Manager;
 
 class ServiceManager implements ContainerAwareInterface
 {
-
     /**
      * @var
      */
@@ -196,9 +193,9 @@ class ServiceManager implements ContainerAwareInterface
     {
         \Twig_Autoloader::register();
 
-        $templatesPath = realpath(__DIR__ . '/../Resources/templates/');
-        $loader        = new \Twig_Loader_Filesystem($templatesPath);
-        $twig          = new \Twig_Environment($loader, array('autoescape' => false));
+        $templatesPath = realpath(__DIR__.'/../Resources/templates/');
+        $loader = new \Twig_Loader_Filesystem($templatesPath);
+        $twig = new \Twig_Environment($loader, array('autoescape' => false));
         $twig->addExtension(new \Symfony\Bridge\Twig\Extension\ProfilerExtension(new \Twig_Profiler_Profile()));
         $this->setTwigEnv($twig);
 

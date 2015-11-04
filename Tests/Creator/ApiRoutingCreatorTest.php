@@ -7,7 +7,6 @@
  * Time: 10:56
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Tests\Creator;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,14 +17,14 @@ class ApiRoutingCreatorTest extends WebTestCase
 {
     public function testGetters()
     {
-        $twig    = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $creator = new ApiRoutingCreator($twig);
         $this->assertInstanceOf('\Twig_Environment', $creator->getTwig(), 'twig property must be an instance of \Twig_Environment');
     }
 
     public function testGetRouteParametersAsArray()
     {
-        $twig    = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $creator = new ApiRoutingCreator($twig);
 
         $this->assertEquals(array('name' => 'product_get'), $creator->getRouteParametersAsArray('get', array(), '/product'));
@@ -34,7 +33,7 @@ class ApiRoutingCreatorTest extends WebTestCase
 
     public function testCreateYamlConf()
     {
-        $twig    = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $creator = new ApiRoutingCreator($twig);
 
         $objects = array(

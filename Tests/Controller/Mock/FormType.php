@@ -7,7 +7,6 @@
  * Time: 11:54
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Tests\Controller\Mock;
 
 use Symfony\Component\Form\AbstractType;

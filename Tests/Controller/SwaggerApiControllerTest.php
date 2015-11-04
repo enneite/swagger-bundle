@@ -20,7 +20,7 @@ class SwaggerApiControllerTest extends WebTestCase
 
         $content = json_encode($data);
 
-        $class  = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
+        $class = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
         $method = $class->getMethod('sendJsonResponse');
         $method->setAccessible(true);
 
@@ -48,7 +48,7 @@ class SwaggerApiControllerTest extends WebTestCase
             ->method('getContent')
             ->will($this->returnvalue($content));
 
-        $class  = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
+        $class = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
         $method = $class->getMethod('getJsonContent');
         $method->setAccessible(true);
 
@@ -71,7 +71,7 @@ class SwaggerApiControllerTest extends WebTestCase
             ->method('getContent')
             ->will($this->returnvalue($content));
 
-        $class  = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
+        $class = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
         $method = $class->getMethod('getJsonContent');
         $method->setAccessible(true);
 
@@ -82,7 +82,7 @@ class SwaggerApiControllerTest extends WebTestCase
 
     public function testSendInternalError()
     {
-        $class  = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
+        $class = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
         $method = $class->getMethod('sendInternalError');
         $method->setAccessible(true);
 
@@ -101,14 +101,14 @@ class SwaggerApiControllerTest extends WebTestCase
 
     public function testUpgradeOptions()
     {
-        $class  = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
+        $class = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
         $method = $class->getMethod('upgradeFormOptions');
         $method->setAccessible(true);
 
         $controller = new SwaggerApiController();
 
         $options = array();
-        $res     = $method->invokeArgs($controller, array($options));
+        $res = $method->invokeArgs($controller, array($options));
         $this->assertEquals(array('csrf_protection' => false), $res);
 
         $options = array(
@@ -135,7 +135,7 @@ class SwaggerApiControllerTest extends WebTestCase
         $controller = new SwaggerApiController();
         $controller->setContainer($container);
 
-        include_once __DIR__ . '/Mock/FormType.php';
+        include_once __DIR__.'/Mock/FormType.php';
         $type = new FormType();
 
         $this->assertInstanceOf('Symfony\Component\Form\Form', $controller->createForm($type, null, array()));

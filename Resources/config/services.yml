@@ -1,4 +1,4 @@
 services:
-  enneite_swagger.creator_manager:
-    class: Enneite\SwaggerBundle\Manager\CreatorManager
+  enneite_swagger.generator_manager:
+    class: Enneite\SwaggerBundle\Manager\GeneratorManager
     arguments: ["@service_container", "@filesystem"]

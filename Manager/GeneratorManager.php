@@ -7,15 +7,14 @@
  * Time: 00:30
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Manager;
 
-use Enneite\SwaggerBundle\Creator\BundleCreator;
+use Enneite\SwaggerBundle\Generator\BundleGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser;
 
-class CreatorManager
+class GeneratorManager
 {
     private $container;
     private $filesystem;
@@ -79,11 +78,11 @@ class CreatorManager
         }
         $this->mainNamespace = $swaggerConf['destination_namespace'];
 
-        $outPath = realpath($this->container->get('kernel')->getRootDir() . '/../src/' . str_replace('\\', '/', $swaggerConf['destination_namespace'])) . '/' . self::BUNDLENAME;
+        $outPath = realpath($this->container->get('kernel')->getRootDir().'/../src/'.str_replace('\\', '/', $swaggerConf['destination_namespace'])).'/'.self::BUNDLENAME;
         if (null == $outPath) {
             throw new \Exception(" output path : $outPath not found");
         }
-        $this->outputPath = $outPath . '/';
+        $this->outputPath = $outPath.'/';
 
         $type = (isset($swaggerConf['routing_type'])) ? $swaggerConf['routing_type'] : 'yaml';
         $this->routingType = $type;
@@ -103,31 +102,30 @@ class CreatorManager
             if (file_exists($swaggerFilePath)) {
                 if (preg_match("/\.(yaml|yml)$/i", $swaggerFilePath)) {
                     $yaml = new Parser();
+
                     return $yaml->parse(file_get_contents($swaggerFilePath));
                 } else {
                     return json_decode(file_get_contents($swaggerFilePath), true);
                 }
             }
         } else {
-            $swaggerFilePath = $this->container->get('kernel')->getRootDir() . '/config/swagger';
-            if (file_exists($swaggerFilePath . '.json')) {
-                return json_decode(file_get_contents($swaggerFilePath . '.json'), true);
+            $swaggerFilePath = $this->container->get('kernel')->getRootDir().'/config/swagger';
+            if (file_exists($swaggerFilePath.'.json')) {
+                return json_decode(file_get_contents($swaggerFilePath.'.json'), true);
             }
-            if (file_exists($swaggerFilePath . '.yml')) {
+            if (file_exists($swaggerFilePath.'.yml')) {
                 $yaml = new Parser();
-                return $yaml->parse(file_get_contents($swaggerFilePath . '.yml'));
+
+                return $yaml->parse(file_get_contents($swaggerFilePath.'.yml'));
             }
         }
 
         throw new \Exception('Swagger file not found!');
     }
 
-    public function createBundle()
+    public function generateBundle()
     {
-        $creator = new BundleCreator($this->container, $this->filesystem);
-        $creator->createBundle($this->outputPath, $this->mainNamespace, self::BUNDLENAME);
-
+        $creator = new BundleGenerator($this->container, $this->filesystem);
+        $creator->generate($this->outputPath, $this->mainNamespace, self::BUNDLENAME);
     }
-
-
 }

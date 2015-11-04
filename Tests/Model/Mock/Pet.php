@@ -7,14 +7,13 @@
  * Time: 11:07
  * To change this template use File | Settings | File Templates.
  */
-
 namespace  Enneite\SwaggerBundle\Tests\Model\Mock;
 
 use Enneite\SwaggerBundle\Model\ModelInterface;
 
 class Pet implements ModelInterface
 {
-    protected $id   = 123;
+    protected $id = 123;
     protected $name = 'myName';
 
     /**

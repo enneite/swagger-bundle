@@ -7,7 +7,6 @@
  * Time: 11:57
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Tests\DependencyInjection;
 
 use Enneite\SwaggerBundle\Creator\FileCreator;

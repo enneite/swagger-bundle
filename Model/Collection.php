@@ -7,12 +7,10 @@
  * Time: 15:08
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Model;
 
 class Collection implements ModelInterface, \IteratorAggregate, \Countable
 {
-
     /**
      * @var array
      */
@@ -27,7 +25,7 @@ class Collection implements ModelInterface, \IteratorAggregate, \Countable
     }
 
     /**
-     * return items in an array (array can be json encoded)
+     * return items in an array (array can be json encoded).
      *
      * @return array
      */
@@ -35,23 +33,20 @@ class Collection implements ModelInterface, \IteratorAggregate, \Countable
     {
         $a = array();
         foreach ($this->items as $item) {
-            if($item instanceof ModelInterface) {
+            if ($item instanceof ModelInterface) {
                 array_push($a, $item->toArray());
-            }
-            else if(is_object($item)) {
+            } elseif (is_object($item)) {
                 array_push($a, (array) $item);
-            }
-            else {
+            } else {
                 array_push($a, $item);
             }
-
         }
 
         return $a;
     }
 
     /**
-     * items getter
+     * items getter.
      *
      * @return array
      */
@@ -61,9 +56,10 @@ class Collection implements ModelInterface, \IteratorAggregate, \Countable
     }
 
     /**
-     * items setter
+     * items setter.
      *
      * @param array $items
+     *
      * @return $this
      */
     public function setItems(array $items)

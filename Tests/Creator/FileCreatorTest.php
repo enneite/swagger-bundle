@@ -7,7 +7,6 @@
  * Time: 09:09
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Tests\Creator;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,7 +20,7 @@ class FileCreatorTest extends WebTestCase
      */
     public function testFileCreateWithException()
     {
-        $fs      = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
+        $fs = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
         $creator = new FileCreator($fs);
 
         $creator->createFile('/dont/have/this/path/in/your/machine/please', 'un contenu');
@@ -29,13 +28,13 @@ class FileCreatorTest extends WebTestCase
 
     public function testFileCreaten()
     {
-        $fs      = new Filesystem();
+        $fs = new Filesystem();
         $creator = new FileCreator($fs);
 
         try {
-            $res = $creator->createFile(__DIR__ . '/file.txt', 'delete this file please');
+            $res = $creator->createFile(__DIR__.'/file.txt', 'delete this file please');
             $this->assertTrue($res);
-            $fs->remove(__DIR__ . '/file.txt');
+            $fs->remove(__DIR__.'/file.txt');
         } catch (\Exception $e) {
             //
         }
@@ -61,7 +60,7 @@ class FileCreatorTest extends WebTestCase
      */
     public function testDirectoryWithException()
     {
-        $e  = $this->getMockBuilder('\Exception')->disableOriginalConstructor()->getMock();
+        $e = $this->getMockBuilder('\Exception')->disableOriginalConstructor()->getMock();
         $fs = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
         $fs->expects($this->any())
             ->method('mkdir')
@@ -103,7 +102,7 @@ class FileCreatorTest extends WebTestCase
      */
     public function testGetWithException()
     {
-        $fs      = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
+        $fs = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
         $creator = new FileCreator($fs);
 
         $res = $creator->get('/this/is/a/file');
@@ -112,20 +111,20 @@ class FileCreatorTest extends WebTestCase
 
     public function testGet()
     {
-        $fs      = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
+        $fs = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
         $creator = new FileCreator($fs);
 
-        $res = $creator->get(realpath(__DIR__ . '/../../Resources/example/config/swagger.yaml'));
+        $res = $creator->get(realpath(__DIR__.'/../../Resources/example/config/swagger.yaml'));
         $this->assertInternalType('string', $res);
         $this->assertTrue(strlen($res) > 0);
     }
 
     public function testRealpath()
     {
-        $fs      = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
+        $fs = $this->getMockBuilder('Symfony\Component\Filesystem\Filesystem')->disableOriginalConstructor()->getMock();
         $creator = new FileCreator($fs);
 
-        $res = $creator->realpath(__DIR__ . '/../../Resources/example/config/swagger.yaml');
+        $res = $creator->realpath(__DIR__.'/../../Resources/example/config/swagger.yaml');
         $this->assertInternalType('string', $res);
         $this->asserttrue(strpos($res, '/Resources/example/config/swagger.yaml') !== 0);
 

@@ -17,12 +17,12 @@ class SwaggerApiController extends Controller
      *
      * @return JsonResponse
      */
-    protected function sendJsonResponse(array $data, $status = 200, $headers=array())
+    protected function sendJsonResponse(array $data, $status = 200, $headers = array())
     {
         $response = new JsonResponse($data);
         $response->setStatusCode($status);
 
-        foreach($headers as $key => $value) {
+        foreach ($headers as $key => $value) {
             $response->headers->set($key, $value);
         }
 
@@ -61,7 +61,8 @@ class SwaggerApiController extends Controller
     }
 
     /**
-     * Get request data with control for required field
+     * Get request data with control for required field.
+     *
      * @todo : add unit test
      *
      * @param Request $request
@@ -69,7 +70,7 @@ class SwaggerApiController extends Controller
      * @param $type
      * @param bool $required
      * @param null $defaultValue
-     * @return null
+     *
      * @throws \InvalidArgumentException
      */
     protected function getRequestData(Request $request, $dataName, $type, $required = true, $defaultValue = null)
@@ -81,20 +82,20 @@ class SwaggerApiController extends Controller
             if (isset($json[$dataName])) {
                 return $json[$dataName];
             }
-        } elseif (in_array($type,$types)) {
+        } elseif (in_array($type, $types)) {
             if ($request->$type->has($dataName)) {
-                if($request->$type->get($dataName) == null && $required == true && $type == 'files') {
-                    throw new \InvalidArgumentException($dataName . ' file is empty ');
+                if ($request->$type->get($dataName) == null && $required == true && $type == 'files') {
+                    throw new \InvalidArgumentException($dataName.' file is empty ');
                 } else {
                     return $request->$type->get($dataName);
                 }
             }
         } else {
-            throw new \InvalidArgumentException('unknown type ' . $type);
+            throw new \InvalidArgumentException('unknown type '.$type);
         }
 
         if ($required) {
-            throw new \InvalidArgumentException('parameter ' . $dataName . ' is missing in request!');
+            throw new \InvalidArgumentException('parameter '.$dataName.' is missing in request!');
         } else {
             return $defaultValue;
         }

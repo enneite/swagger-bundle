@@ -7,7 +7,6 @@
  * Time: 09:46
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Tests\Creator;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -22,9 +21,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testConstructAndGetters()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -35,9 +34,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testGetAvailableExceptions()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -51,9 +50,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testHasResponseSchema()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -69,7 +68,7 @@ class ApiControllerCreatorTest extends WebTestCase
                     'type' => 'array',
                 ),
                 'items' => array(
-                    "\$ref" => '#/definitions/Pet',
+                    '$ref' => '#/definitions/Pet',
                 ),
             );
 
@@ -78,9 +77,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testHasResponseModel()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -96,7 +95,7 @@ class ApiControllerCreatorTest extends WebTestCase
                 'type' => 'array',
             ),
             'items' => array(
-                "\$ref" => '#/definitions/Pet',
+                '$ref' => '#/definitions/Pet',
             ),
         );
 
@@ -105,7 +104,7 @@ class ApiControllerCreatorTest extends WebTestCase
         $response = array(
             'description' => 'successful operation',
             'schema' => array(
-                "\$ref" => '#/definitions/Pet',
+                '$ref' => '#/definitions/Pet',
             ),
         );
 
@@ -114,9 +113,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testHasResponseCollection()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -131,7 +130,7 @@ class ApiControllerCreatorTest extends WebTestCase
             'schema' => array(
                 'type' => 'array',
                 'items' => array(
-                    "\$ref" => '#/definitions/Pet',
+                    '$ref' => '#/definitions/Pet',
                 ),
             ),
         );
@@ -141,7 +140,7 @@ class ApiControllerCreatorTest extends WebTestCase
         $response = array(
             'description' => 'successful operation',
             'schema' => array(
-                "\$ref" => '#/definitions/Pet',
+                '$ref' => '#/definitions/Pet',
             ),
         );
 
@@ -153,9 +152,9 @@ class ApiControllerCreatorTest extends WebTestCase
      */
     public function testHasResponseCollectionWithException()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -171,7 +170,7 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testGetAssociatedModel()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiModelCreator->expects($this->any())
             ->method('extractModel')
@@ -183,7 +182,7 @@ class ApiControllerCreatorTest extends WebTestCase
         $response = array(
             'description' => 'successful operation',
             'schema' => array(
-                "\$ref" => '#/definitions/Pet',
+                '$ref' => '#/definitions/Pet',
             ),
         );
         $res = $creator->getAssociatedModel($response);
@@ -194,7 +193,7 @@ class ApiControllerCreatorTest extends WebTestCase
             'schema' => array(
                 'type' => 'array',
                 'items' => array(
-                    "\$ref" => '#/definitions/Pet',
+                    '$ref' => '#/definitions/Pet',
                 ),
             ),
         );
@@ -205,7 +204,7 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testGetAssociatedCollection()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiModelCreator->expects($this->any())
             ->method('extractModel')
@@ -217,7 +216,7 @@ class ApiControllerCreatorTest extends WebTestCase
         $response = array(
             'description' => 'successful operation',
             'schema' => array(
-                "\$ref" => '#/definitions/Pet',
+                '$ref' => '#/definitions/Pet',
             ),
         );
         $res = $creator->getAssociatedCollection($response);
@@ -228,7 +227,7 @@ class ApiControllerCreatorTest extends WebTestCase
             'schema' => array(
                 'type' => 'array',
                 'items' => array(
-                    "\$ref" => '#/definitions/Pet',
+                    '$ref' => '#/definitions/Pet',
                 ),
             ),
         );
@@ -239,9 +238,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testExtractCodesbyStatus()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -253,7 +252,7 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testGetActionParameters()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiModelCreator->expects($this->any())
             ->method('formatProperty')
@@ -305,9 +304,9 @@ class ApiControllerCreatorTest extends WebTestCase
      */
     public function testGetActionParametersWithException()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -328,7 +327,7 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testCreateActionParameters()
     {
-        $php      = '(Request $request, $id)';
+        $php = '(Request $request, $id)';
         $template = $this->getMockBuilder('\Twig_Template')->disableOriginalConstructor()->getMock();
         $template->expects($this->any())
             ->method('render')
@@ -338,7 +337,7 @@ class ApiControllerCreatorTest extends WebTestCase
             ->method('loadTemplate')
             ->will($this->returnvalue($template));
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -361,9 +360,9 @@ class ApiControllerCreatorTest extends WebTestCase
      */
     public function testCreateActionParametersWithException()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -386,9 +385,9 @@ class ApiControllerCreatorTest extends WebTestCase
      */
     public function testGetRoutingAnnotation()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator->expects($this->any())
             ->method('getRouteParametersAsArray')
             ->will($this->returnvalue(array()));
@@ -418,7 +417,7 @@ class ApiControllerCreatorTest extends WebTestCase
      */
     public function testGetActionComments()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiModelCreator->expects($this->any())
             ->method('formatProperty')
@@ -472,13 +471,13 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testExtractArguments()
     {
-        include_once __DIR__ . '/../Controller/Mock/ProductController.php';
+        include_once __DIR__.'/../Controller/Mock/ProductController.php';
         $reflexion = new \ReflectionClass('Enneite\SwaggerBundle\Tests\Controller\Mock\ProductController');
-        $method    = $reflexion->getMethod('getAction');
+        $method = $reflexion->getMethod('getAction');
 
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 
@@ -487,7 +486,7 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testGetSchemaResponse()
     {
-        $php      = '(Request $request, $id)';
+        $php = '(Request $request, $id)';
         $template = $this->getMockBuilder('\Twig_Template')->disableOriginalConstructor()->getMock();
         $template->expects($this->any())
             ->method('render')
@@ -530,9 +529,9 @@ class ApiControllerCreatorTest extends WebTestCase
 
     public function testCreateClassName()
     {
-        $twig               = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $twig = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
         $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
-        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
 
         $creator = new ApiControllerCreator($twig, $apiModelCreator, $apiRoutingCreator);
 

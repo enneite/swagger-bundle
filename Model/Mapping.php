@@ -7,10 +7,7 @@
  * Time: 11:59
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Model;
-
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class Mapping
 {
@@ -27,11 +24,11 @@ class Mapping
         $reflection = new \ReflectionClass($model);
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
         foreach ($properties as $property) {
-            $setter = 'set' . ucfirst($property->getName());
-            $getter = 'get' . ucfirst($property->getName());
+            $setter = 'set'.ucfirst($property->getName());
+            $getter = 'get'.ucfirst($property->getName());
 
             if (array_key_exists($property->getName(), $data)) {
-                $value     = $data[$property->getName()];
+                $value = $data[$property->getName()];
                 $attribute = $model->{$getter}();
                 if (is_array($value) && $attribute instanceof  ModelInterface) {
                     self::buildFromArray($attribute, $value);
@@ -61,30 +58,26 @@ class Mapping
         $reflectionModel = new \ReflectionClass($object);
 
         foreach ($properties as $property) {
-            $setter = 'set' . ucfirst($property->getName());
-            $getter = 'get' . ucfirst($property->getName());
+            $setter = 'set'.ucfirst($property->getName());
+            $getter = 'get'.ucfirst($property->getName());
 
             try {
                 $method = $reflectionModel->getMethod($getter);
 
-                $value     = $object->{$getter}();
+                $value = $object->{$getter}();
                 $attribute = $model->{$getter}();
                 if ($value instanceof \DateTime) { // format special pour les dates ...
                     $model->{$setter}($value->format($dateFormat));
-                }
-                else if (is_object($value) && $model->{$getter}() instanceof  ModelInterface) {
+                } elseif (is_object($value) && $model->{$getter}() instanceof  ModelInterface) {
                     self::buildFromObject($attribute, $value, $dateFormat);
-                }
-                else if(is_array($value)) { // : can only map array of scalar => @todo map array of object
+                } elseif (is_array($value)) { // : can only map array of scalar => @todo map array of object
                     $collection = new Collection();
                     $collection->setItems($value);
                     $model->{$setter}($collection);
-                }
-                else {
+                } else {
                     $model->{$setter}($value);
                 }
-            }
-            catch (\ReflectionException $e) {
+            } catch (\ReflectionException $e) {
                 // nothing to do!
             }
         }

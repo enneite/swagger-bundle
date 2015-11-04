@@ -7,10 +7,9 @@
  * Time: 11:03
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Tests\Model;
 
-include_once __DIR__ . '/Mock/Pet.php';
+include_once __DIR__.'/Mock/Pet.php';
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Enneite\SwaggerBundle\Model\Collection;

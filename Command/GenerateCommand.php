@@ -7,9 +7,7 @@
  * Time: 16:47
  * To change this template use File | Settings | File Templates.
  */
-
 namespace Enneite\SwaggerBundle\Command;
-
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -43,7 +41,7 @@ class GenerateCommand extends ContainerAwareCommand
      * php app/console swagger:generate --file=Resources/example/swagger.json.
      *
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return int|null|void
@@ -54,10 +52,10 @@ class GenerateCommand extends ContainerAwareCommand
         $output->getFormatter()->setStyle('fire', $style);
         $verbosity = $output->getVerbosity();
 
-        $manager = $this->getContainer()->get('enneite_swagger.creator_manager');
+        $manager = $this->getContainer()->get('enneite_swagger.generator_manager');
         $conf = $manager->getConfig();
 
-        $manager->createBundle();
+        $manager->generateBundle();
 
 //        if (isset($conf['definitions'])) {
 //            $output->writeln('Start creating definitions...');
