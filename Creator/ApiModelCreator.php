@@ -71,7 +71,7 @@ class ApiModelCreator
     {
         $useArray = array(
             'Enneite\SwaggerBundle\Model\ModelInterface',
-            ' Enneite\SwaggerBundle\Model\Collection',
+            'Enneite\SwaggerBundle\Model\Collection',
         );
 
         $propertiesConf = array();

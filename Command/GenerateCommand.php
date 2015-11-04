@@ -54,93 +54,94 @@ class GenerateCommand extends ContainerAwareCommand
         $output->getFormatter()->setStyle('fire', $style);
         $verbosity = $output->getVerbosity();
 
-        $manager = $this->getCreatorsManager();
-
+        $manager = $this->getContainer()->get('enneite_swagger.creator_manager');
         $conf = $manager->getConfig();
 
-        if (isset($conf['definitions'])) {
-            $output->writeln('Start creating definitions...');
-            $manager->createDefinitions($conf['definitions'], $output);
-            $output->writeln('Finish creating definitions.');
-        } else {
-            $output->writeln('');
-            $output->writeln('WARNING: definitions not found');
-        }
+        $manager->createBundle();
 
-        if (isset($conf['paths'])) {
-            $output->writeln('Start creating controllers...');
-            $buildRoutingAnnotations = ('annotation' === $manager->getRoutingType());
-            $manager->createControllers($conf['paths'], $buildRoutingAnnotations, $output);
-            $output->writeln('Finish creating controllers.');
-
-            if ('yaml' == $manager->getRoutingType()) {
-                $output->writeln('Start creating routing yaml file...');
-
-                $manager->createRoutingYamlFile($conf['paths'], $output);
-                $output->writeln('Finish creating routing yaml file.');
-            }
-        } else {
-            $output->writeln('');
-            $output->writeln('WARNING: paths not found');
-        }
-
-        if (!$input->getOption('no-csfixer')) {
-            $watcher = new Stopwatch();
-            $eventDispatcher = new EventDispatcher();
-
-            $dirs = array(
-                $manager->getOutputPath() . 'Controller/Api/',
-                $manager->getOutputPath() . 'Api/Model',
-            );
-
-            $fixer = new fixer();
-
-            $fixer->setStopwatch(new Stopwatch());
-            $fixer->registerBuiltInFixers();
-            $fixer->registerBuiltInConfigs();
-
-            $config = new config();
-            $config->fixers($fixer->getFixers());
-            foreach ($dirs as $dir) {
-                if (file_exists($dir) && is_dir($dir)) {
-                    $config->getFinder()->setDir($dir);
-                }
-            }
-
-            $fileProcessedEventListener = function (FixerFileProcessedEvent $event) use ($output) {
-                $output->write($event->getStatusAsString());
-            };
-
-            $fixer->setEventDispatcher($eventDispatcher);
-            $eventDispatcher->addListener(FixerFileProcessedEvent::NAME, $fileProcessedEventListener);
-
-            $watcher->start('fixFiles');
-            $changed = $fixer->fix($config);
-            $watcher->stop('fixFiles');
-
-            $fixer->setEventDispatcher(null);
-            $eventDispatcher->removeListener(FixerFileProcessedEvent::NAME, $fileProcessedEventListener);
-            $output->writeln('');
-
-            $legend = array();
-            foreach (FixerFileProcessedEvent::getStatusMap() as $status) {
-                if ($status['symbol'] && $status['description']) {
-                    $legend[] = $status['symbol'] . '-' . $status['description'];
-                }
-            }
-            $output->writeln('Legend: ' . implode(', ', array_unique($legend)));
-
-            if (OutputInterface::VERBOSITY_VERBOSE <= $verbosity) {
-                $i = 1;
-                foreach ($changed as $file => $fixResult) {
-                    $output->writeln(sprintf('%4d) %s', $i++, $file));
-                }
-
-                $output->writeln('');
-                $fixEvent = $watcher->getEvent('fixFiles');
-                $output->writeln(sprintf('Fixed all files in %.3f seconds, %.3f MB memory used', $fixEvent->getDuration() / 1000, $fixEvent->getMemory() / 1024 / 1024));
-            }
-        }
+//        if (isset($conf['definitions'])) {
+//            $output->writeln('Start creating definitions...');
+//            $manager->createDefinitions($conf['definitions'], $output);
+//            $output->writeln('Finish creating definitions.');
+//        } else {
+//            $output->writeln('');
+//            $output->writeln('WARNING: definitions not found');
+//        }
+//
+//        if (isset($conf['paths'])) {
+//            $output->writeln('Start creating controllers...');
+//            $buildRoutingAnnotations = ('annotation' === $manager->getRoutingType());
+//            $manager->createControllers($conf['paths'], $buildRoutingAnnotations, $output);
+//            $output->writeln('Finish creating controllers.');
+//
+//            if ('yaml' == $manager->getRoutingType()) {
+//                $output->writeln('Start creating routing yaml file...');
+//
+//                $manager->createRoutingYamlFile($conf['paths'], $output);
+//                $output->writeln('Finish creating routing yaml file.');
+//            }
+//        } else {
+//            $output->writeln('');
+//            $output->writeln('WARNING: paths not found');
+//        }
+//
+//        if (!$input->getOption('no-csfixer')) {
+//            $watcher = new Stopwatch();
+//            $eventDispatcher = new EventDispatcher();
+//
+//            $dirs = array(
+//                $manager->getOutputPath() . 'Controller/Api/',
+//                $manager->getOutputPath() . 'Api/Model',
+//            );
+//
+//            $fixer = new fixer();
+//
+//            $fixer->setStopwatch(new Stopwatch());
+//            $fixer->registerBuiltInFixers();
+//            $fixer->registerBuiltInConfigs();
+//
+//            $config = new config();
+//            $config->fixers($fixer->getFixers());
+//            foreach ($dirs as $dir) {
+//                if (file_exists($dir) && is_dir($dir)) {
+//                    $config->getFinder()->setDir($dir);
+//                }
+//            }
+//
+//            $fileProcessedEventListener = function (FixerFileProcessedEvent $event) use ($output) {
+//                $output->write($event->getStatusAsString());
+//            };
+//
+//            $fixer->setEventDispatcher($eventDispatcher);
+//            $eventDispatcher->addListener(FixerFileProcessedEvent::NAME, $fileProcessedEventListener);
+//
+//            $watcher->start('fixFiles');
+//            $changed = $fixer->fix($config);
+//            $watcher->stop('fixFiles');
+//
+//            $fixer->setEventDispatcher(null);
+//            $eventDispatcher->removeListener(FixerFileProcessedEvent::NAME, $fileProcessedEventListener);
+//            $output->writeln('');
+//
+//            $legend = array();
+//            foreach (FixerFileProcessedEvent::getStatusMap() as $status) {
+//                if ($status['symbol'] && $status['description']) {
+//                    $legend[] = $status['symbol'] . '-' . $status['description'];
+//                }
+//            }
+//            $output->writeln('Legend: ' . implode(', ', array_unique($legend)));
+//
+//            if (OutputInterface::VERBOSITY_VERBOSE <= $verbosity) {
+//                $i = 1;
+//                foreach ($changed as $file => $fixResult) {
+//                    $output->writeln(sprintf('%4d) %s', $i++, $file));
+//                }
+//
+//                $output->writeln('');
+//                $fixEvent = $watcher->getEvent('fixFiles');
+//                $output->writeln(sprintf('Fixed all files in %.3f seconds, %.3f MB memory used', $fixEvent->getDuration() / 1000, $fixEvent->getMemory() / 1024 / 1024));
+//            }
+//        }
     }
 
     /**

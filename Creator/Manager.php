@@ -151,6 +151,14 @@ class Manager implements ContainerAwareInterface
     }
 
     /**
+     * mainSace getter.
+     */
+    public function getMainNamespace()
+    {
+        return $this->mainNamespace;
+    }
+
+    /**
      * @param $controllersNamespace
      *
      * @return $this
@@ -212,22 +220,20 @@ class Manager implements ContainerAwareInterface
         if (!isset($swaggerConf['destination_namespace'])) {
             throw new \Exception(' swagger destination namespace not found');
         }
+
         $this->setMainNamespace($swaggerConf['destination_namespace']);
 
-        if (!isset($swaggerConf['destination_bundle'])) {
-            throw new \Exception(' swagger destination bundle not found');
-        }
-        $this->setBundleName($swaggerConf['destination_bundle']);
+//        if (!isset($swaggerConf['destination_bundle'])) {
+//            throw new \Exception(' swagger destination bundle not found');
+//        }
+//        $this->setBundleName($swaggerConf['destination_bundle']);
 
-        $outPath = $this->fileCreator->realpath($this->getContainer()->get('kernel')->getRootDir() . '/../src/' . str_replace('\\', '/', $swaggerConf['destination_namespace']));
+        $outPath = $this->fileCreator->realpath($this->getContainer()->get('kernel')->getRootDir() . '/../src/' . str_replace('\\', '/', $swaggerConf['destination_namespace'])). '/ApiBundle';
 
         if (null == $outPath) {
             throw new \Exception(" output path : $outPath not found");
         }
         $this->setOutputPath($outPath . '/');
-
-        $this->modelsNamespace = $this->mainNamespace . '\Api\Model';
-        $this->controllersNamespace = $this->mainNamespace . '\Controller\Api';
 
         $type = (isset($swaggerConf['routing'])) ? $swaggerConf['routing'] : 'yaml';
         $this->setRoutingType($type);
@@ -252,7 +258,6 @@ class Manager implements ContainerAwareInterface
         $swaggerConf = array(
             'config_file' => array_key_exists('config_file', $swaggerConfig) ? $swaggerConfig['config_file'] : null,
             'destination' => array(
-                'bundle' => $swaggerConfig['destination_bundle'],
                 'namespace' => $swaggerConfig['destination_namespace']
             )
         );
@@ -436,5 +441,12 @@ class Manager implements ContainerAwareInterface
             }
         }
         $output->writeln("RESUME : $nbNewControllers controllers generated, $nbNewActions action added to existing controllers");
+    }
+
+    public function createBundle($output)
+    {
+        $this->fileCreator->createDirectory($this->getOutputPath());
+        $this->fileCreator->createFile($this->getOutputPath() . $this->getMainNamespace() . 'ApiBundle.php', 'test');
+        die('ok');
     }
 }
