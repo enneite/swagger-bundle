@@ -1,4 +1,13 @@
 services:
   enneite_swagger.generator_manager:
     class: Enneite\SwaggerBundle\Manager\GeneratorManager
+    arguments: ["@service_container"]
+  enneite_swagger.bundle_generator:
+    class: Enneite\SwaggerBundle\Generator\BundleGenerator
+    arguments: ["@service_container", "@filesystem"]
+  enneite_swagger.controller_generator:
+    class: Enneite\SwaggerBundle\Generator\ControllerGenerator
+    arguments: ["@service_container", "@filesystem"]
+  enneite_swagger.router_generator:
+    class: Enneite\SwaggerBundle\Generator\RouterGenerator
     arguments: ["@service_container", "@filesystem"]

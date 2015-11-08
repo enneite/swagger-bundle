@@ -13,24 +13,30 @@ use Sensio\Bundle\GeneratorBundle\Manipulator\KernelManipulator;
 
 class BundleGenerator extends Generator
 {
-    private $nameSpace;
+    private $namespace;
     private $bundleName;
 
     /**
      * @param $outpuPath
-     * @param $nameSpace
+     * @param $namespace
      * @param $bundleName
+     *
+     * @return int
      */
-    public function generate($outpuPath, $nameSpace, $bundleName)
+    public function generate($outpuPath, $namespace, $bundleName)
     {
-        $this->nameSpace = $nameSpace;
+        $this->namespace = $namespace;
         $this->bundleName = $bundleName;
 
         $this->createBundleFile($outpuPath);
 
-        if (!$this->bundleExists($nameSpace.$bundleName)) {
+        if (!$this->bundleExists($namespace.$bundleName)) {
             $this->addToKernel();
+
+            return 1; // add to kernal
         }
+
+        return 2; // already in kernel
     }
 
     /**
@@ -38,11 +44,11 @@ class BundleGenerator extends Generator
      */
     private function createBundleFile($outpuPath)
     {
-        $target = $outpuPath.$this->nameSpace.$this->bundleName.'.php';
+        $target = $outpuPath.$this->namespace.$this->bundleName.'.php';
         $template = 'Bundle.php.twig';
         $parameter = array(
-            'namespace' => $this->nameSpace.'\\'.$this->bundleName,
-            'className' => $this->nameSpace.$this->bundleName,
+            'namespace' => $this->namespace.'\\'.$this->bundleName,
+            'className' => $this->namespace.$this->bundleName,
         );
         $this->renderFile($template, $target, $parameter);
     }
@@ -53,7 +59,7 @@ class BundleGenerator extends Generator
     private function addToKernel()
     {
         $kernelManipulator = new KernelManipulator($this->container->get('kernel'));
-        $kernelManipulator->addBundle($this->nameSpace.'\\'.$this->bundleName.'\\'.$this->nameSpace.$this->bundleName);
+        $kernelManipulator->addBundle($this->namespace.'\\'.$this->bundleName.'\\'.$this->namespace.$this->bundleName);
     }
 
     /**
@@ -65,7 +71,7 @@ class BundleGenerator extends Generator
     {
         return array_key_exists(
             $bundleName,
-            $this->container->getParameter('kernel.bundles')
+            $this->container->get('kernel')->getBundles()
         );
     }
 }
