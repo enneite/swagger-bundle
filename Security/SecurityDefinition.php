@@ -53,6 +53,8 @@ class SecurityDefinition
     public function setAuthorizationUrl($authorizationUrl)
     {
         $this->authorizationUrl = $authorizationUrl;
+
+        return $this;
     }
 
     /**
@@ -69,6 +71,8 @@ class SecurityDefinition
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -85,6 +89,8 @@ class SecurityDefinition
     public function setFlow($flow)
     {
         $this->flow = $flow;
+
+        return $this;
     }
 
     /**
@@ -101,6 +107,8 @@ class SecurityDefinition
     public function setIn($in)
     {
         $this->in = $in;
+
+        return $this;
     }
 
     /**
@@ -117,6 +125,8 @@ class SecurityDefinition
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -133,6 +143,8 @@ class SecurityDefinition
     public function setScopes($scopes)
     {
         $this->scopes = $scopes;
+
+        return $this;
     }
 
     /**
@@ -149,6 +161,8 @@ class SecurityDefinition
     public function setTokenUrl($tokenUrl)
     {
         $this->tokenUrl = $tokenUrl;
+
+        return $this;
     }
 
     /**
@@ -165,6 +179,8 @@ class SecurityDefinition
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**

@@ -344,15 +344,20 @@ class Manager implements ContainerAwareInterface
 
         $yaml = $this->apiSecurityCreator->createSecurityYaml($basePath, $security, $paths,$output);
 
+        $yaml = '# WARNING: THIS FILE IS GENERATED DYNAMICALLY'
+               ."\n".'# TO WORK:'
+                ."\n".'# 1. INCLUDE IT IN security.yml FILE'.
+                "\n" . '# 2. Define the providers in security providers configuration'
+               ."\n\n\n".$yaml;
 
-        $path = $this->outputPath;
+        /*$path = $this->outputPath;
         $this->fileCreator->createDirectory($path . 'Resources');
         $path = $path . 'Resources/';
         $this->fileCreator->createDirectory($path . 'config');
-        $path = $path . 'config/';
+        $path = $path . 'config/';*/
 
-        $this->fileCreator->createFile($path . 'api_security.yml', $yaml);
-        $output->writeln('<info>' . $path . 'api_security.yml created</info>');
+        $this->fileCreator->createFile($this->container->get('kernel')->getRootDir() . '/config/__api_security.yml', $yaml);
+        $output->writeln('<info>' . $this->container->get('kernel')->getRootDir() . '/config/__api_security.yml created</info>');
 
     }
 

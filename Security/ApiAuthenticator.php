@@ -9,9 +9,15 @@
 namespace Enneite\SwaggerBundle\Security;
 
 
+use Enneite\SwaggerBundle\Exception\UnauthorizedApiException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class ApiAuthenticator implements SimplePreAuthenticatorInterface
 {
@@ -41,7 +47,12 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         $accessToken = $token->getCredentials();
-        $user = $userProvider->loadByUserName($accessToken);
+        try {
+            $user = $userProvider->loadUserByUsername($accessToken);
+        }
+        catch(UsernameNotFoundException $e) {
+            throw new UnauthorizedApiException($e->getMessage());
+        }
 
         $token->setUser($user);
 

@@ -11,6 +11,10 @@ namespace Enneite\SwaggerBundle\Creator;
 use Symfony\Component\Yaml\Parser;
 
 class ApiSecurityCreator {
+
+    const AUTHENTICATOR_ID_PREFIX = 'enneite_swagger.api_autenticator_';
+    const SECURITY_DEFINITION_ID_PREFIX = 'enneite_swagger.api_security_definition_';
+
     /**
      * @var
      */
@@ -76,6 +80,14 @@ class ApiSecurityCreator {
                 $parameters = $this->apiRoutingCreator->getRouteParametersAsArray($verb, $objects, $pathName);
                 $firewallName = 'api_'.$parameters['name'];
                 if(isset($objects['security'])) {
+
+                    $securityDefinitionsKeys = array();
+                    foreach($objects['security'] as $securityItem) {
+                        $securityKeys = array_keys($securityItem);
+                        $securityDefinitionsKeys[] = $securityKeys[0];
+                    }
+
+
                     $a = $this->apiRoutingCreator->getPathParameterAssoc($this->apiRoutingCreator->extractPathParameters($objects));
 
                     foreach($a as $name=>$regex) {
@@ -85,9 +97,13 @@ class ApiSecurityCreator {
                     $b.= "        ".'stateless: true'."\n";
                     $b.= "        ".'pattern: ' . '^'.$basePath. $pathName ."\n";
                     $b.= "        ".'methods: ['.strtoupper($verb).']'."\n";
-                    $b.= "        ".'simple_preauth: '."\n";
-                    $b.= "          ".'provider: ' . 'enneite_swagger.api_default_provider' . "\n";
-                    $b.= "          ".'authenticator: ' . 'enneite_swagger.api_oauth2_authenticator' . "\n";
+
+                    foreach($securityDefinitionsKeys as $securityDefinitionKey) {
+                        $b.= "        ".'simple_preauth: '."\n";
+                        $b.= "          ".'provider: ' . 'api_'.$securityDefinitionKey ."\n";
+                        $b.= "          ".'authenticator: ' . self::buildAuthenticatorId($securityDefinitionKey) . "\n";
+                    }
+
                 }
                 else {
                     $b.= "      ".$firewallName.":\n";
@@ -108,4 +124,13 @@ class ApiSecurityCreator {
         return $a;
     }
 
+    static public function buildAuthenticatorId($name)
+    {
+        return self::AUTHENTICATOR_ID_PREFIX . $name;
+    }
+
+    static public function buildSecurityDefinitionServiceId($name)
+    {
+        return self::SECURITY_DEFINITION_ID_PREFIX . $name;
+    }
 } 
