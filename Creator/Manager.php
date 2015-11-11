@@ -13,7 +13,9 @@ namespace Enneite\SwaggerBundle\Creator;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
 
 class Manager implements ContainerAwareInterface
 {
@@ -85,12 +87,13 @@ class Manager implements ContainerAwareInterface
      */
     protected $container;
 
-    public function __construct($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator)
+    public function __construct($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator)
     {
         $this->setContainer($container);
         $this->fileCreator = $fileCreator;
         $this->apiModelCreator = $apiModelCreator;
         $this->apiRoutingCreator = $apiRoutingCreator;
+        $this->apiSecurityCreator = $apiSecurityCreator;
         $this->apiControllerCreator = $apiControllerCreator;
 
         return $this;
@@ -331,6 +334,26 @@ class Manager implements ContainerAwareInterface
 
         $this->fileCreator->createFile($path . 'api_routing.yml', $outputStr);
         $output->writeln('<info>' . $path . 'api_routing.yml created</info>');
+    }
+
+    /**
+     *
+     */
+    public function createSecurityYamlFile($basePath, $security, $paths, OutputInterface $output)
+    {
+
+        $yaml = $this->apiSecurityCreator->createSecurityYaml($basePath, $security, $paths,$output);
+
+
+        $path = $this->outputPath;
+        $this->fileCreator->createDirectory($path . 'Resources');
+        $path = $path . 'Resources/';
+        $this->fileCreator->createDirectory($path . 'config');
+        $path = $path . 'config/';
+
+        $this->fileCreator->createFile($path . 'api_security.yml', $yaml);
+        $output->writeln('<info>' . $path . 'api_security.yml created</info>');
+
     }
 
     /**

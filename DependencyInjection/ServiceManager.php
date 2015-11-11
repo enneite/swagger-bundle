@@ -16,6 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Enneite\SwaggerBundle\Creator\ApiControllerCreator;
 use Enneite\SwaggerBundle\Creator\ApiModelCreator;
 use Enneite\SwaggerBundle\Creator\ApiRoutingCreator;
+use Enneite\SwaggerBundle\Creator\ApiSecurityCreator;
 use Enneite\SwaggerBundle\Creator\FileCreator;
 use Enneite\SwaggerBundle\Creator\Manager;
 
@@ -48,6 +49,11 @@ class ServiceManager implements ContainerAwareInterface
      * @var
      */
     protected $apiControllerCreator;
+
+    /**
+     * @var
+     */
+    protected $apiSecurityCreator;
 
     /**
      * @var
@@ -136,6 +142,27 @@ class ServiceManager implements ContainerAwareInterface
     }
 
     /**
+     * @param mixed $apiSecurityCreator
+     * @return $this;
+     */
+    public function setApiSecurityCreator($apiSecurityCreator)
+    {
+        $this->apiSecurityCreator = $apiSecurityCreator;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApiSecurityCreator()
+    {
+        return $this->apiSecurityCreator;
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getApiRoutingCreator()
@@ -186,8 +213,9 @@ class ServiceManager implements ContainerAwareInterface
         $this->setFileCreator($this->getContainer()->get('enneite_swagger.file_creator'));
         $this->setApiModelCreator(new ApiModelCreator($this->getTwigEnv()));
         $this->setApiRoutingCreator(new ApiRoutingCreator($this->getTwigEnv()));
+        $this->setApiSecurityCreator(new ApiSecurityCreator($this->getTwigEnv(), $this->getApiRoutingCreator()));
         $this->setApiControllerCreator(new ApiControllerCreator($this->getTwigEnv(), $this->getApiModelCreator(), $this->getApiRoutingCreator()));
-        $this->setCreatorsManager(new Manager($this->getContainer(), $this->getFileCreator(), $this->getApiModelCreator(), $this->getApiRoutingCreator(), $this->getApiControllerCreator()));
+        $this->setCreatorsManager(new Manager($this->getContainer(), $this->getFileCreator(), $this->getApiModelCreator(), $this->getApiRoutingCreator(), $this->getApiSecurityCreator(), $this->getApiControllerCreator()));
 
         return $this;
     }

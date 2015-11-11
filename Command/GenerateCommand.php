@@ -84,6 +84,14 @@ class GenerateCommand extends ContainerAwareCommand
             $output->writeln('WARNING: paths not found');
         }
 
+        //security:
+        $security = isset($conf['security']) ? $conf['security']: null;
+        $paths = isset($conf['paths']) ? $conf['paths']: array();
+        $manager->createSecurityYamlFile($conf['basePath'], $security, $paths,$output);
+        $output->writeln('Finish creating security yaml file.');
+
+
+
         if (!$input->getOption('no-csfixer')) {
             $watcher = new Stopwatch();
             $eventDispatcher = new EventDispatcher();
