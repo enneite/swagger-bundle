@@ -57,8 +57,6 @@ class Generator
 
     protected function createRepositoy($target)
     {
-        if (!is_dir($target)) {
-            mkdir($target, 0775, true);
-        }
+        $this->filesystem->mkdir($target, 0775);
     }
 }

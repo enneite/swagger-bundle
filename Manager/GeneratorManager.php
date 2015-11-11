@@ -175,6 +175,7 @@ class GeneratorManager
                 $rows[] = array($generator->getNamespace(), $generator->getClassName().'.php');
             }
         }
+
         if ($output->isVerbose()) {
             $table = new Table($output);
             $table->setHeaders(array('Namespace', 'File'))->setRows($rows)->render();
@@ -213,9 +214,30 @@ class GeneratorManager
             array_pop($rows);
             $table->setHeaders(array('Path', 'Method'))->setRows($rows)->render();
         }
-
         $message = ' - Resources/config/routing.yml created';
         $message .= $result == 1 ? ' ( add to app )' : ' ( already in app )';
         $output->writeln('<info>'.$message.'</info>');
+    }
+
+    /**
+     * @param $definitions
+     * @param $output
+     */
+    public function generateEntities($definitions, $output)
+    {
+        $generator = $this->container->get('enneite_swagger.entity_generator');
+
+        foreach ($definitions as $entityName => $entity) {
+            $generator->generate($this->outputPath, $this->namespace, $entityName, $entity);
+            if ($output->isVerbose()) {
+                $rows[] = array($generator->getNamespace(), $generator->getClassName().'.php');
+            }
+        }
+
+        if ($output->isVerbose()) {
+            $table = new Table($output);
+            $table->setHeaders(array('Namespace', 'File'))->setRows($rows)->render();
+        }
+        $output->writeln('<info>RESUME : '.count($definitions).' entities generated</info>');
     }
 }

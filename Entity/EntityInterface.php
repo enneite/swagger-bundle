@@ -1,8 +1,8 @@
 <?php
 
-namespace Enneite\SwaggerBundle\Model;
+namespace Enneite\SwaggerBundle\Entity;
 
-interface ModelInterface
+interface EntityInterface
 {
     /**
      * get the model as an array.

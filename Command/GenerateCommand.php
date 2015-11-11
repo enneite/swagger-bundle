@@ -65,7 +65,7 @@ class GenerateCommand extends ContainerAwareCommand
 
             if (isset($swaggerConfig['definitions'])) {
                 $output->writeln('Start creating definitions...');
-//                $manager->generateEntities($swaggerConfig['definitions'], $output);
+                $manager->generateEntities($swaggerConfig['definitions'], $output);
                 $output->writeln('Finish creating definitions.');
                 $output->writeln('');
             } else {

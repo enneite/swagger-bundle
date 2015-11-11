@@ -7,9 +7,9 @@
  * Time: 15:08
  * To change this template use File | Settings | File Templates.
  */
-namespace Enneite\SwaggerBundle\Model;
+namespace Enneite\SwaggerBundle\Entity;
 
-class Collection implements ModelInterface, \IteratorAggregate, \Countable
+class Collection implements EntityInterface, \IteratorAggregate, \Countable
 {
     /**
      * @var array

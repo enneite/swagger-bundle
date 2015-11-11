@@ -7,7 +7,7 @@
  * Time: 11:59
  * To change this template use File | Settings | File Templates.
  */
-namespace Enneite\SwaggerBundle\Model;
+namespace Enneite\SwaggerBundle\Entity;
 
 class Mapping
 {
@@ -19,7 +19,7 @@ class Mapping
      *
      * @return ResourceInterface
      */
-    public static function buildFromArray(ModelInterface $model, array $data)
+    public static function buildFromArray(EntityInterface $model, array $data)
     {
         $reflection = new \ReflectionClass($model);
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
@@ -30,7 +30,7 @@ class Mapping
             if (array_key_exists($property->getName(), $data)) {
                 $value = $data[$property->getName()];
                 $attribute = $model->{$getter}();
-                if (is_array($value) && $attribute instanceof  ModelInterface) {
+                if (is_array($value) && $attribute instanceof  EntityInterface) {
                     self::buildFromArray($attribute, $value);
                 } else {
                     $model->{$setter}($value);
@@ -50,7 +50,7 @@ class Mapping
      *
      * @return ResourceInterface
      */
-    public static function buildFromObject(ModelInterface $model, $object, $dateFormat = 'Y-m-d')
+    public static function buildFromObject(EntityInterface $model, $object, $dateFormat = 'Y-m-d')
     {
         $reflection = new \ReflectionClass($model);
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
@@ -68,7 +68,7 @@ class Mapping
                 $attribute = $model->{$getter}();
                 if ($value instanceof \DateTime) { // format special pour les dates ...
                     $model->{$setter}($value->format($dateFormat));
-                } elseif (is_object($value) && $model->{$getter}() instanceof  ModelInterface) {
+                } elseif (is_object($value) && $model->{$getter}() instanceof  EntityInterface) {
                     self::buildFromObject($attribute, $value, $dateFormat);
                 } elseif (is_array($value)) { // : can only map array of scalar => @todo map array of object
                     $collection = new Collection();
