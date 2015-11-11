@@ -14,6 +14,7 @@ class ControllerGenerator extends Generator
     private $className;
     private $namespace;
     private $outputPath;
+    private $entityGenerator;
 
     /**
      * @return mixed
@@ -21,18 +22,6 @@ class ControllerGenerator extends Generator
     public function getNamespace()
     {
         return $this->namespace;
-    }
-
-    /**
-     * @param mixed $namespace
-     *
-     * @return ControllerGenerator
-     */
-    public function setNamespace($namespace)
-    {
-        $this->namespace = $namespace;
-
-        return $this;
     }
 
     /**
@@ -44,18 +33,6 @@ class ControllerGenerator extends Generator
     }
 
     /**
-     * @param mixed $outputPath
-     *
-     * @return ControllerGenerator
-     */
-    public function setOutputPath($outputPath)
-    {
-        $this->outputPath = $outputPath;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getClassName()
@@ -63,38 +40,33 @@ class ControllerGenerator extends Generator
         return $this->className;
     }
 
-    /**
-     * @param $className
-     *
-     * @return $this
-     */
-    private function setClassName($className)
+    public function __construct($container, $filesystem)
     {
-        $this->className = $className;
-
-        return $this;
+        parent::__construct($container, $filesystem);
+        $this->entityGenerator = $this->container->get('enneite_swagger.entity_generator');
     }
 
     /**
      * @param $outputPath
      * @param $namespace
+     * @param $className
      * @param $pathName
      * @param $path
      * @param $annotation
      */
     public function generate($outputPath, $namespace, $className, $pathName, $path, $annotation)
     {
-        $this->setClassName($className.'Controller');
-        $this->setOutputPath($outputPath.'Controller/');
-        $this->setNamespace($namespace.'\Controller');
-        $this->createController($this->outputPath, $this->className, $this->namespace, $pathName, $path, $annotation);
+        $this->className = $className.'Controller';
+        $this->outputPath = $outputPath.'Controller/';
+        $this->namespace = $namespace.'\Controller';
+        $this->createController($this->outputPath, $this->className, $namespace, $pathName, $path, $annotation);
     }
 
     private function createController($outpuPath, $className, $namespace, $pathName, $path, $annotation)
     {
         $target = $outpuPath.$className.'.php';
         $template = 'Controller.php.twig';
-        $params = $this->getControllerParams($className, $namespace, $namespace.'\Entities', $path, $pathName, $annotation);
+        $params = $this->getControllerParams($className, $this->namespace, $namespace.'\Entity', $path, $pathName, $annotation);
 
         return $this->renderFile($template, $target, $params);
     }
@@ -105,7 +77,7 @@ class ControllerGenerator extends Generator
             'Enneite\SwaggerBundle\Controller\SwaggerApiController',
             'Symfony\Component\HttpFoundation\Request',
             'Symfony\Component\HttpKernel\Exception',
-            $resourceNamespace.' as ApiModel',
+            $resourceNamespace.' as Entity',
         );
         if ($annotation) {
             array_push($useArray, 'Sensio\Bundle\FrameworkExtraBundle\Configuration\Route');
@@ -275,10 +247,10 @@ class ControllerGenerator extends Generator
      */
     public function createSchemaPhpCode($response)
     {
-        //        $template = 'controller/action/schema.php.twig';
-//        $params = $this->getSchemaPhpCode($response);
-//        return $template->render($template, $params);
-        return true;
+        $template = 'controller/action/schema.php.twig';
+        $params = $this->getSchemaPhpCode($response);
+
+        return $this->render($template, $params);
     }
 
     /**
@@ -288,23 +260,23 @@ class ControllerGenerator extends Generator
      */
     public function getSchemaPhpCode($response)
     {
-        if ($this->hasResponseModel($response)) {
-            $model = $this->getAssociatedModel($response);
+        if ($this->hasResponseEntity($response)) {
+            $entity = $this->getAssociatedEntity($response);
             $method = 'buildResource';
         } elseif ($this->hasResponseCollection($response)) {
-            $model = $this->getAssociatedCollection($response);
-            $model = str_replace('Collection', '', $model);
+            $entity = $this->getAssociatedCollection($response);
+            $entity = str_replace('Collection', '', $entity);
             $method = 'buildCollection';
         } elseif ($this->hasResponseSchema($response)) {
-            $model = null;
+            $entity = null;
             $method = null;
         } else {
-            $model = null;
+            $entity = null;
             $method = null;
         }
 
         return array(
-            'model' => $model,
+            'entity' => $entity,
             'method' => $method,
         );
     }
@@ -324,9 +296,10 @@ class ControllerGenerator extends Generator
         $parameters = array_filter($parameters, function ($parameter) {
             return 'path' == $parameter['in'];
         });
-//        foreach ($parameters as $parameter) {
-//            array_push($args, $this->apiModelCreator->formatProperty($parameter['name']));
-//        }
+
+        foreach ($parameters as $parameter) {
+            array_push($args, $this->entityGenerator->formatProperty($parameter['name']));
+        }
 
         return $args;
     }
@@ -415,7 +388,7 @@ class ControllerGenerator extends Generator
                 throw new \Exception(' "in" attribute missing for parameter');
             }
             $parameters[$i]['description'] = (isset($parameter['description']) && $parameter['in'] != 'path') ? $parameter['description'] : null;
-//            $parameters[$i]['name'] = $this->apiModelCreator->formatProperty($parameter['name']);
+            $parameters[$i]['name'] = $this->entityGenerator->formatProperty($parameter['name']);
             $parameters[$i]['required'] = (isset($parameter['required'])) ? (bool) $parameter['required'] : false;
         }
 
@@ -451,13 +424,13 @@ class ControllerGenerator extends Generator
     }
 
     /**
-     * return true if the response object has an "schema" attribute" and is associated to a model definition in swagger configuration file.
+     * return true if the response object has an "schema" attribute" and is associated to a entity definition in swagger configuration file.
      *
      * @param array $response
      *
      * @return bool
      */
-    public function hasResponseModel($response)
+    public function hasResponseEntity($response)
     {
         return $this->hasResponseSchema($response) && isset($response['schema']['$ref']);
     }
@@ -477,24 +450,23 @@ class ControllerGenerator extends Generator
     }
 
     /**
-     * get the model associated to the response schema in swagger configuration file.
+     * get the entity associated to the response schema in swagger configuration file.
      *
      * @param $response
      *
      * @return bool
      */
-    public function getAssociatedModel($response)
+    public function getAssociatedEntity($response)
     {
-        if (!$this->hasResponseModel($response)) {
+        if (!$this->hasResponseEntity($response)) {
             return false;
         }
-        //print_r($response);
 
-//        return $this->apiModelCreator->extractModel($response['schema']);
+        return $this->entityGenerator->extractEntity($response['schema']);
     }
 
     /**
-     * get the collection model associated to the response schema in swagger configuration file.
+     * get the collection entity associated to the response schema in swagger configuration file.
      *
      * @param $response
      *
@@ -505,9 +477,8 @@ class ControllerGenerator extends Generator
         if (!$this->hasResponseCollection($response)) {
             return false;
         }
-        //print_r($response);
 
-//        return $this->apiModelCreator->extractModel($response['schema']['items']) . 'Collection';
+        return $this->entityGenerator->extractEntity($response['schema']['items']).'Collection';
     }
 
     /**

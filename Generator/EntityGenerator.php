@@ -55,7 +55,7 @@ class EntityGenerator extends Generator
             }
         }
 
-        $this->namespace = $namespace.'\\Entity\\';
+        $this->namespace = $namespace.'\\Entity';
 
         $template = 'Entity.php.twig';
         $target = $path.'Entity/'.$this->className.'.php';
@@ -73,8 +73,6 @@ class EntityGenerator extends Generator
      */
     private function getEntityParams($className, $namespace, $entity)
     {
-        $namespace = $namespace.$className;
-
         $useArray = array(
             'Enneite\SwaggerBundle\Entity\EntityInterface',
             'Enneite\SwaggerBundle\Entity\Collection',

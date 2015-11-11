@@ -167,9 +167,9 @@ class GeneratorManager
         $annotation = ('annotation' === $this->getRoutingType());
         $generator = $this->container->get('enneite_swagger.controller_generator');
 
+        $namespace = $this->namespace.'\\'.$this->bundleName;
         $rows = array();
         foreach ($paths as $pathName => $pathArray) {
-            $namespace = $this->namespace.'\\'.$this->bundleName;
             $generator->generate($this->outputPath, $namespace, $this->getClassName($pathName), $pathName, $pathArray, $annotation);
             if ($output->isVerbose()) {
                 $rows[] = array($generator->getNamespace(), $generator->getClassName().'.php');
@@ -227,8 +227,9 @@ class GeneratorManager
     {
         $generator = $this->container->get('enneite_swagger.entity_generator');
 
+        $namespace = $this->namespace.'\\'.$this->bundleName;
         foreach ($definitions as $entityName => $entity) {
-            $generator->generate($this->outputPath, $this->namespace, $entityName, $entity);
+            $generator->generate($this->outputPath, $namespace, $entityName, $entity);
             if ($output->isVerbose()) {
                 $rows[] = array($generator->getNamespace(), $generator->getClassName().'.php');
             }
