@@ -21,7 +21,7 @@ class ApiSecurityPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $swaggerConf = $container->getParameter('swagger');
-        $conf = $this->loadSecurityDefinitions($swaggerConf);
+        $conf = $this->loadSecurityDefinitions($swaggerConf, $container);
         if($conf == null) {
             return;
         }
@@ -44,24 +44,16 @@ class ApiSecurityPass implements CompilerPassInterface
 
     }
 
-    protected function loadSecurityDefinitions(array $swaggerConf)
+    protected function loadSecurityDefinitions(array $swaggerConf, ContainerBuilder $container)
     {
         $configFile = isset($swaggerConf['config_file']) ? $swaggerConf['config_file'] : '%kernel.root_dir%/config/swagger.yml';
 
         if(strpos($configFile, '%kernel.root_dir%') !== false) {
-            $env = getenv('SYMFONY_ENV');
-            if(null == $env) {
-                $env = getenv('APPLICATION_ENV');
-            }
-            if(null == $env) {
-                $env = 'dev';
-            }
-            $kernel = new \AppKernel($env, false);
-            $configFile = str_replace('%kernel.root_dir%', $kernel->getRootDir(), $configFile);
+            $configFile = str_replace('%kernel.root_dir%', $container->getParameter('kernel.root_dir'), $configFile);
         }
 
         if(strpos($configFile, '.json') !== false) {
-            $config = json_decode(file_get_contents($configFile));
+            $conf = json_decode(file_get_contents($configFile), true);
         }
         else {
             $conf = Yaml::parse(file_get_contents($configFile));

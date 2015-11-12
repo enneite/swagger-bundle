@@ -75,6 +75,25 @@ class ApiSecurityCreator {
     public function createSecurityYaml($basePath, $security, $paths)
     {
         $b = '';
+
+        if(null != $security){
+            $firewallName = 'api_base_path';
+            $securityDefinitionsKeys = array();
+            foreach($security as $securityItem) {
+                $securityKeys = array_keys($securityItem);
+                $securityDefinitionsKeys[] = $securityKeys[0];
+            }
+            $b.= "    ".'api_base_path'.":\n";
+            $b.= "      ".'stateless: true'."\n";
+            $b.= "      ".'pattern: ' . '^'.$basePath."\n";
+            foreach($securityDefinitionsKeys as $securityDefinitionKey) {
+                $b.= "      ".'simple_preauth: '."\n";
+                $b.= "        ".'provider: ' . 'api_'.$securityDefinitionKey ."\n";
+                $b.= "        ".'authenticator: ' . self::buildAuthenticatorId($securityDefinitionKey) . "\n";
+            }
+        }
+
+
         foreach($paths as $pathName => $path) {
             foreach($path as  $verb => $objects) {
                 $parameters = $this->apiRoutingCreator->getRouteParametersAsArray($verb, $objects, $pathName);
@@ -93,23 +112,23 @@ class ApiSecurityCreator {
                     foreach($a as $name=>$regex) {
                         $pathName = str_replace('{'.$name.'}', $regex, $pathName);
                     }
-                    $b.= "      ".$firewallName.":\n";
-                    $b.= "        ".'stateless: true'."\n";
-                    $b.= "        ".'pattern: ' . '^'.$basePath. $pathName ."\n";
-                    $b.= "        ".'methods: ['.strtoupper($verb).']'."\n";
+                    $b.= "    ".$firewallName.":\n";
+                    $b.= "      ".'stateless: true'."\n";
+                    $b.= "      ".'pattern: ' . '^'.$basePath. $pathName ."\n";
+                    $b.= "      ".'methods: ['.strtoupper($verb).']'."\n";
 
                     foreach($securityDefinitionsKeys as $securityDefinitionKey) {
-                        $b.= "        ".'simple_preauth: '."\n";
-                        $b.= "          ".'provider: ' . 'api_'.$securityDefinitionKey ."\n";
-                        $b.= "          ".'authenticator: ' . self::buildAuthenticatorId($securityDefinitionKey) . "\n";
+                        $b.= "      ".'simple_preauth: '."\n";
+                        $b.= "        ".'provider: ' . 'api_'.$securityDefinitionKey ."\n";
+                        $b.= "        ".'authenticator: ' . self::buildAuthenticatorId($securityDefinitionKey) . "\n";
                     }
 
                 }
                 else {
-                    $b.= "      ".$firewallName.":\n";
-                    $b.=  "       ".'pattern: ' . '^'.$basePath. $pathName ."\n";
-                    $b.=  "       ".'methods: ['.strtoupper($verb).']'."\n";
-                    $b.=  "       ".'security: false'."\n";
+                    $b.= "    ".$firewallName.":\n";
+                    $b.=  "     ".'pattern: ' . '^'.$basePath. $pathName ."\n";
+                    $b.=  "     ".'methods: ['.strtoupper($verb).']'."\n";
+                    $b.=  "     ".'security: false'."\n";
                 }
             }
         }
@@ -118,7 +137,8 @@ class ApiSecurityCreator {
 
         $a = 'security: '."\n"
             ."  ". 'firewalls:'."\n"
-            ."    ".$firewall.":"."\n"
+            ."### --- COPY THIS CONTENT IN security.yml file  --- ###" ."\n\n\n"
+
             .$b;
 
         return $a;

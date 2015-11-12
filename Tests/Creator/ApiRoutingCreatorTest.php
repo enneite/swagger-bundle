@@ -81,4 +81,106 @@ class ApiRoutingCreatorTest extends WebTestCase
         $yaml = new Parser();
         $this->assertInternalType('array', $yaml->parse($conf));
     }
+
+    public function testGetPathParameterRegex()
+    {
+        $twig    = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $creator = new ApiRoutingCreator($twig);
+
+        $parameter = array(
+            'name' => 'date',
+            'in' => 'path',
+            'type' => 'string',
+            'format' => 'date',
+            'required' => true,
+        );
+        $this->assertEquals("[0-9]{4}\-[0-9]{2}\-[0-9]{2}", $creator->getPathParameterRegex($parameter));
+
+        $parameter = array(
+            'name' => 'time',
+            'in' => 'path',
+            'type' => 'string',
+            'format' => 'datetime',
+            'required' => true,
+        );
+        $this->assertEquals(".+", $creator->getPathParameterRegex($parameter));
+
+        $parameter = array(
+            'name' => 'status',
+            'in' => 'path',
+            'type' => 'string',
+            'required' => true,
+        );
+        $this->assertEquals(".+", $creator->getPathParameterRegex($parameter));
+
+        $parameter = array(
+            'name' => 'id',
+            'in' => 'path',
+            'type' => 'integer',
+            'format' => 'int32',
+            'required' => true,
+        );
+        $this->assertEquals("[0-9]+", $creator->getPathParameterRegex($parameter));
+
+        $parameter = array(
+            'name' => 'code',
+            'in' => 'path',
+            'type' => 'number',
+            'format' => 'float',
+            'required' => true,
+        );
+        $this->assertEquals("[0-9]+\.?[0-9]*", $creator->getPathParameterRegex($parameter));
+    }
+
+    public function testGetPathParameterAssoc()
+    {
+        $twig    = $this->getMockBuilder('\Twig_Environment')->disableOriginalConstructor()->getMock();
+        $creator = new ApiRoutingCreator($twig);
+        $parameters = array(
+            array(
+                'name' => 'date',
+                'in' => 'path',
+                'type' => 'string',
+                'format' => 'date',
+                'required' => true,
+            ),
+            array(
+                'name' => 'time',
+                'in' => 'path',
+                'type' => 'string',
+                'format' => 'datetime',
+                'required' => true,
+            ),
+            array(
+                'name' => 'status',
+                'in' => 'path',
+                'type' => 'string',
+                'required' => true,
+            ),
+            array(
+                'name' => 'id',
+                'in' => 'path',
+                'type' => 'integer',
+                'format' => 'int32',
+                'required' => true,
+            ),
+            array(
+                'name' => 'code',
+                'in' => 'path',
+                'type' => 'number',
+                'format' => 'float',
+                'required' => true,
+            ),
+        );
+
+        $a = array(
+            'date' => '[0-9]{4}\-[0-9]{2}\-[0-9]{2}',
+            'time' => '.+',
+            'status' => '.+',
+            'id' =>'[0-9]+',
+            'code' => '[0-9]+\.?[0-9]*'
+        );
+
+        $this->assertEquals($a, $creator->getPathParameterAssoc($parameters));
+    }
 }
