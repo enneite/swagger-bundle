@@ -68,27 +68,12 @@ class ApiRoutingCreator
         $conf .= "\n    defaults:";
         $conf .= "\n        _controller: " . $bundleName . ':Api\\' . $className . ':' . $verb;
 
-        $parameters = (isset($objects['parameters'])) ? $objects['parameters'] : array();
-
-        $parameters = array_filter($parameters, function ($parameter) {
-            return  'path' == $parameter['in'] && isset($parameter['required']) && true == $parameter['required'];
-        });
+        $parameters = $this->extractPathParameters($objects);
 
         if (count($parameters) > 0) {
             $conf .= "\n    requirements:";
             foreach ($parameters as $parameter) {
-                $regex = '.+';
-                if ($parameter['type'] == 'integer') {
-                    $regex = '[0-9]+';
-                } elseif ($parameter['type'] == 'number') {
-                    $regex = "[0-9]+\.?[0-9]*";
-                } elseif ($parameter['type'] == 'string') {
-                    if (isset($parameter['format'])) {
-                        if ($parameter['format'] == 'date') {
-                            $regex = "[0-9]{4}\-[0-9]{2}\-[0-9]{2}";
-                        }
-                    }
-                }
+                $regex = $this->getPathParameterRegex($parameter);
                 $conf .= "\n         " . $parameter['name'] . ':' . ' "' . $regex . '" ';
             }
         }
@@ -97,4 +82,46 @@ class ApiRoutingCreator
 
         return $conf;
     }
+
+    /**
+     * @param $objects
+     * @return array
+     */
+    public function extractPathParameters($objects) {
+        $parameters = (isset($objects['parameters'])) ? $objects['parameters'] : array();
+
+        $parameters = array_filter($parameters, function ($parameter) {
+            return  'path' == $parameter['in'] && isset($parameter['required']) && true == $parameter['required'];
+        });
+
+        return $parameters;
+    }
+
+    public function getPathParameterRegex($parameter)
+    {
+        $regex = '.+';
+        if ($parameter['type'] == 'integer') {
+            $regex = '[0-9]+';
+        } elseif ($parameter['type'] == 'number') {
+            $regex = "[0-9]+\.?[0-9]*";
+        } elseif ($parameter['type'] == 'string') {
+            if (isset($parameter['format'])) {
+                if ($parameter['format'] == 'date') {
+                    $regex = "[0-9]{4}\-[0-9]{2}\-[0-9]{2}";
+                }
+            }
+        }
+        return $regex;
+    }
+
+    public function getPathParameterAssoc($parameters)
+    {
+        $a = array();
+        foreach($parameters as $parameter) {
+            $a[$parameter['name']] = $this->getPathParameterRegex($parameter);
+        }
+
+        return $a;
+    }
+
 }

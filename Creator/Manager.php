@@ -13,7 +13,9 @@ namespace Enneite\SwaggerBundle\Creator;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
 
 class Manager implements ContainerAwareInterface
 {
@@ -85,12 +87,13 @@ class Manager implements ContainerAwareInterface
      */
     protected $container;
 
-    public function __construct($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator)
+    public function __construct($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator)
     {
         $this->setContainer($container);
         $this->fileCreator = $fileCreator;
         $this->apiModelCreator = $apiModelCreator;
         $this->apiRoutingCreator = $apiRoutingCreator;
+        $this->apiSecurityCreator = $apiSecurityCreator;
         $this->apiControllerCreator = $apiControllerCreator;
 
         return $this;
@@ -331,6 +334,31 @@ class Manager implements ContainerAwareInterface
 
         $this->fileCreator->createFile($path . 'api_routing.yml', $outputStr);
         $output->writeln('<info>' . $path . 'api_routing.yml created</info>');
+    }
+
+    /**
+     *
+     */
+    public function createSecurityYamlFile($basePath, $security, $paths, OutputInterface $output)
+    {
+
+        $yaml = $this->apiSecurityCreator->createSecurityYaml($basePath, $security, $paths,$output);
+
+        $yaml = '# WARNING: THIS FILE IS GENERATED DYNAMICALLY'
+               ."\n".'# TO WORK:'
+                ."\n".'# 1. COPY / PAST THIS CONTENT IT IN security.yml FILE'.
+                "\n" . '# 2. Define the providers in security providers configuration'
+               ."\n\n\n".$yaml;
+
+        /*$path = $this->outputPath;
+        $this->fileCreator->createDirectory($path . 'Resources');
+        $path = $path . 'Resources/';
+        $this->fileCreator->createDirectory($path . 'config');
+        $path = $path . 'config/';*/
+
+        $this->fileCreator->createFile($this->container->get('kernel')->getRootDir() . '/config/__api_security.yml.template', $yaml);
+        $output->writeln('<info>' . $this->container->get('kernel')->getRootDir() . '/config/__api_security.yml.template created</info>');
+
     }
 
     /**

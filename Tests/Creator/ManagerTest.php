@@ -28,6 +28,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -36,7 +37,7 @@ class ManagerTest extends WebTestCase
 
         // case 1 : swagger file not found!
         $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')->disableOriginalConstructor()->getMock();
-        $manager   = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager   = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $caught    = false;
         try {
             $manager->init();
@@ -91,7 +92,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
 
         // first call :
         $caught = false;
@@ -133,6 +134,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -162,7 +164,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $manager->init();
     }
 
@@ -180,6 +182,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -201,7 +204,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $config  = $manager->getConfig();
         $this->assertInternalType('array', $config);
         $this->assertEquals('1.0.0', $config['info']['version']);
@@ -221,6 +224,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -242,7 +246,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $config  = $manager->getConfig();
         $this->assertInternalType('array', $config);
         $this->assertEquals('1.0.0', $config['info']['version']);
@@ -262,6 +266,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -290,7 +295,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator,$apiSecurityCreator, $apiControllerCreator);
         $config  = $manager->getConfig();
         $this->assertInternalType('array', $config);
         $this->assertEquals('1.0.0', $config['info']['version']);
@@ -313,6 +318,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -341,7 +347,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiSecurityCreator, $apiRoutingCreator, $apiControllerCreator);
         $config  = $manager->getConfig();
         $this->assertInternalType('array', $config);
         $this->assertEquals('1.0.0', $config['info']['version']);
@@ -360,6 +366,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -388,7 +395,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $config  = $manager->getConfig();
     }
 
@@ -405,6 +412,7 @@ class ManagerTest extends WebTestCase
 
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $kernel               = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
         $kernel->expects($this->any())
@@ -434,7 +442,7 @@ class ManagerTest extends WebTestCase
                 }
             }));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $config  = $manager->getConfig();
     }
 
@@ -459,6 +467,7 @@ class ManagerTest extends WebTestCase
         $apiRoutingCreator->expects($this->any())
             ->method('createYamlConf')
             ->will($this->returnvalue('#comments ...'));
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator->expects($this->any())
             ->method('getClassName')
@@ -469,7 +478,7 @@ class ManagerTest extends WebTestCase
             ->method('writeln')
             ->will($this->returnvalue(null));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator,$apiSecurityCreator, $apiControllerCreator);
         $manager->setOutputPath('/destination/path');
 
         $json  = json_decode(file_get_contents(realpath(__DIR__ . '/../../Resources/example/config/swagger.json')), true);
@@ -478,7 +487,61 @@ class ManagerTest extends WebTestCase
         $caught = false;
         try {
             $manager->createRoutingYamlFile($paths, $output);
-        } catch (\esception $e) {
+        } catch (\Exception $e) {
+            $caught = true;
+        }
+        $this->assertfalse($caught);
+    }
+
+    public function testCreateSecurityYamlFile()
+    {
+        $fileCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\FileCreator')->disableOriginalConstructor()->getMock();
+        $fileCreator->expects($this->any())
+            ->method('createDirectory')
+            ->will($this->returnvalue(true));
+        $fileCreator->expects($this->any())
+            ->method('createFile')
+            ->will($this->returnvalue(true));
+        $apiModelCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator  = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiRoutingCreator->expects($this->any())
+            ->method('createYamlConf')
+            ->will($this->returnvalue('#comments ...'));
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator->expects($this->any())
+            ->method('createSecurityYaml')
+            ->will($this->returnvalue('#comments ...'));
+        $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
+        $apiControllerCreator->expects($this->any())
+            ->method('getClassName')
+            ->will($this->returnvalue('Product'));
+        $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->disableOriginalConstructor()->getMock();
+        $kernel->expects($this->any())
+            ->method('getRootDir')
+            ->will($this->returnvalue('/var/www/demo/app'));
+        return $kernel;
+        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')->disableOriginalConstructor()->getMock();
+        $container->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(function($val) use($kernel){
+                return $kernel;
+            }));
+
+        $output    = $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')->disableOriginalConstructor()->getMock();
+        $output->expects($this->any())
+            ->method('writeln')
+            ->will($this->returnvalue(null));
+
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator,$apiSecurityCreator, $apiControllerCreator);
+        $manager->setOutputPath('/destination/path');
+
+        $json  = json_decode(file_get_contents(realpath(__DIR__ . '/../../Resources/example/config/swagger.json')), true);
+        $paths = $json['paths'];
+
+        $caught = false;
+        try {
+            $manager->createSecurityYamlFile($json['basePath'], null, $paths, $output);
+        } catch (\Exception $e) {
             $caught = true;
         }
         $this->assertfalse($caught);
@@ -501,6 +564,7 @@ class ManagerTest extends WebTestCase
             ->method('createModelFactory')
             ->will($this->returnvalue('<?php ?>'));
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $container            = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')->disableOriginalConstructor()->getMock();
         $output               = $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')->disableOriginalConstructor()->getMock();
@@ -508,7 +572,7 @@ class ManagerTest extends WebTestCase
             ->method('writeln')
             ->will($this->returnvalue(null));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $manager->setOutputPath('/destination/path');
 
         $json        = json_decode(file_get_contents(realpath(__DIR__ . '/../../Resources/example/config/swagger.json')), true);
@@ -517,7 +581,7 @@ class ManagerTest extends WebTestCase
         $caught = false;
         try {
             $manager->createDefinitions($definitions, $output);
-        } catch (\esception $e) {
+        } catch (\Exception $e) {
             $caught = true;
         }
         $this->assertfalse($caught);
@@ -537,6 +601,7 @@ class ManagerTest extends WebTestCase
             ->will($this->returnvalue(false));
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator->expects($this->any())
             ->method('createController')
@@ -547,7 +612,7 @@ class ManagerTest extends WebTestCase
             ->method('writeln')
             ->will($this->returnvalue(null));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $manager->setOutputPath('/destination/path');
 
         $json  = json_decode(file_get_contents(realpath(__DIR__ . '/../../Resources/example/config/swagger.json')), true);
@@ -556,7 +621,7 @@ class ManagerTest extends WebTestCase
         $caught = false;
         try {
             $manager->createControllers($paths, false, $output);
-        } catch (\esception $e) {
+        } catch (\Exception $e) {
             $caught = true;
         }
         $this->assertfalse($caught);
@@ -576,6 +641,7 @@ class ManagerTest extends WebTestCase
             ->will($this->returnvalue(true));
         $apiModelCreator   = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiModelCreator')->disableOriginalConstructor()->getMock();
         $apiRoutingCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiRoutingCreator')->disableOriginalConstructor()->getMock();
+        $apiSecurityCreator    = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiSecurityCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator = $this->getMockBuilder('Enneite\SwaggerBundle\Creator\ApiControllerCreator')->disableOriginalConstructor()->getMock();
         $apiControllerCreator->expects($this->any())
             ->method('createAction')
@@ -589,7 +655,7 @@ class ManagerTest extends WebTestCase
             ->method('writeln')
             ->will($this->returnvalue(null));
 
-        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiControllerCreator);
+        $manager = new Manager($container, $fileCreator, $apiModelCreator, $apiRoutingCreator, $apiSecurityCreator, $apiControllerCreator);
         $manager->setOutputPath('/destination/path');
         $manager->setControllersNamespace('Enneite\SwaggerBundle\Tests\Controller\Mock');
 
@@ -609,7 +675,7 @@ class ManagerTest extends WebTestCase
         $caught = false;
         try {
             $manager->createControllers($paths, false, $output);
-        } catch (\esception $e) {
+        } catch (\Exception $e) {
             $caught = true;
         }
         $this->assertfalse($caught);
