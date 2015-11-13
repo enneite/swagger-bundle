@@ -2,11 +2,16 @@
     "name" : "enneite/swagger-bundle",
     "type" : "symfony-bundle",
     "description" : "Symfony bundle generator from swagger interface (yml or json)",
+    "keywords": ["swagger", "api", "rest", "symfony"],
     "licence" : "MIT",
     "authors": [
         {
             "name": "Bernard Caron",
             "email": "caronbernard1@gmail.com"
+        },
+        {
+            "name": "Etienne Le jariel",
+            "email": "pitlejariel@hotmail.com"
         }
     ],
     "autoload":     {
