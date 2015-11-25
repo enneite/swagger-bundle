@@ -48,17 +48,19 @@ class EntityGenerator extends Generator
         // get file / class name
         $this->className = ucfirst(array_pop($names));
 
+        $path .= 'Entity/';
+        $namespace .= '\\Entity';
         if (count($names) > 0) {
             foreach ($names as $d) {
-                $path = $path.ucfirst($d).'/';
+                $path .= ucfirst($d).'/';
                 $namespace = $namespace.'\\'.ucfirst($d);
             }
         }
 
-        $this->namespace = $namespace.'\\Entity';
+        $this->namespace = $namespace;
 
         $template = 'Entity.php.twig';
-        $target = $path.'Entity/'.$this->className.'.php';
+        $target = $path.$this->className.'.php';
         $params = $this->getEntityParams($this->className, $this->namespace, $entity);
 
         return $this->renderFile($template, $target, $params);

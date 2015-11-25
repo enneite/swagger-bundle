@@ -95,7 +95,10 @@ class RouterGenerator extends Generator
      */
     private function addToApp($bundleName, $prefix)
     {
+        if ($prefix == '') {
+            $prefix = '/';
+        }
         $kernelManipulator = new RoutingManipulator($this->container->getParameter('kernel.root_dir').'/config/routing.yml');
-        $kernelManipulator->addResource($bundleName, 'yml', '/'.$prefix);
+        $kernelManipulator->addResource($bundleName, 'yml', $prefix);
     }
 }

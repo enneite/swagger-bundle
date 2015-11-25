@@ -82,16 +82,11 @@ class GeneratorManager
      */
     public function loadConfig($swaggerConf)
     {
-        //@todo : faire un arbre de config
-        if (!isset($swaggerConf['destination_namespace'])) {
-            throw new \Exception(' swagger destination namespace not found');
-        }
-
-        $this->namespace = $swaggerConf['destination_namespace'];
-        $this->bundleName = array_key_exists('name', $swaggerConf) ? ucfirst($swaggerConf['name']).'Bundle' : null;
-        $this->routingType = (isset($swaggerConf['routing_type'])) ? $swaggerConf['routing_type'] : 'yaml';
-        $this->routingPrefix = (isset($swaggerConf['routing_prefix'])) ? $swaggerConf['routing_prefix'] : '/';
-        $this->swaggerFilePath = array_key_exists('config_file', $swaggerConf) ? $swaggerConf['config_file'] : null;
+        $this->namespace = ucfirst($swaggerConf['destination_namespace']);
+        $this->bundleName = ucfirst($swaggerConf['name']).'Bundle';
+        $this->routingType = $swaggerConf['routing_type'];
+        $this->routingPrefix = (isset($swaggerConf['routing_prefix'])) ? '/'.$swaggerConf['routing_prefix'] : '';
+        $this->swaggerFilePath = $swaggerConf['config_file'];
         $this->outputPath = realpath($this->container->get('kernel')->getRootDir().'/../src/').'/'.str_replace('\\', '/', $this->namespace).'/'.$this->bundleName.'/';
 
         return $this;
@@ -198,7 +193,7 @@ class GeneratorManager
             foreach ($path as $verb => $objects) {
                 $outputStr .= $generator->createYamlConf($verb, $objects, $pathName, $this->namespace.$this->bundleName, $className);
                 if ($output->isVerbose()) {
-                    $rows[] = array($pathName, $verb);
+                    $rows[] = array($this->routingPrefix.$pathName, $verb);
                 }
             }
             if ($output->isVerbose()) {

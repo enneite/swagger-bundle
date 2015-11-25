@@ -20,9 +20,17 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('enneite_swagger');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->useAttributeAsKey('name')
+            ->requiresAtLeastOneElement()
+            ->prototype('array')
+                ->children()
+                    ->scalarNode('config_file')->cannotBeEmpty()->defaultValue('%kernel.root_dir%/config/swagger.yml')->end()
+                    ->enumNode('routing_type')->values(array('yaml', 'annotation'))->defaultValue('yaml')->end()
+                    ->scalarNode('routing_prefix')->cannotBeEmpty()->end()
+                    ->scalarNode('destination_namespace')->cannotBeEmpty()->defaultValue('api')->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

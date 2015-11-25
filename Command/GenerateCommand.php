@@ -50,11 +50,12 @@ class GenerateCommand extends ContainerAwareCommand
         $manager = $this->getContainer()->get('enneite_swagger.generator_manager');
         $config = $this->getContainer()->getParameter('swagger');
 
-        foreach ($config as $wsConfig) {
-            $manager->loadConfig($wsConfig);
+        foreach ($config as $key => $value) {
+            $value['name'] = $key;
+            $manager->loadConfig($value);
 
             $output->writeln('');
-            $output->writeln('<comment>'.strtoupper($wsConfig['name']).'</comment>');
+            $output->writeln('<comment>'.strtoupper($key).'</comment>');
 
             $output->writeln('Start creating bundle...');
             $manager->generateBundle($output);
