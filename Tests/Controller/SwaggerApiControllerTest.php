@@ -18,7 +18,10 @@ class SwaggerApiControllerTest extends WebTestCase
 
         $status = 200;
 
-        $content = json_encode($data);
+        $headers = array(
+            'cache' => 'true',
+            'time' => 1200,
+        );
 
         $class = new \ReflectionClass('Enneite\SwaggerBundle\Controller\SwaggerApiController');
         $method = $class->getMethod('sendJsonResponse');
@@ -26,7 +29,7 @@ class SwaggerApiControllerTest extends WebTestCase
 
         $controller = new SwaggerApiController();
 
-        $res = $method->invokeArgs($controller, array($data, $status));
+        $res = $method->invokeArgs($controller, array($data, $status, $headers));
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $res);
 

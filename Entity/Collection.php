@@ -33,7 +33,7 @@ class Collection implements EntityInterface, \IteratorAggregate, \Countable
     {
         $a = array();
         foreach ($this->items as $item) {
-            if ($item instanceof ModelInterface) {
+            if ($item instanceof EntityInterface) {
                 array_push($a, $item->toArray());
             } elseif (is_object($item)) {
                 array_push($a, (array) $item);
