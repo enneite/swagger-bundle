@@ -9,7 +9,7 @@
  */
 namespace Enneite\SwaggerBundle\Generator;
 
-use Sensio\Bundle\GeneratorBundle\Manipulator\KernelManipulator;
+use Enneite\SwaggerBundle\Manipulator\SwaggerKernelManipulator;
 
 class BundleGenerator extends Generator
 {
@@ -27,16 +27,42 @@ class BundleGenerator extends Generator
     {
         $this->namespace = $namespace;
         $this->bundleName = $bundleName;
-
         $this->createBundleFile($outpuPath);
-
         if (!$this->bundleExists($namespace.$bundleName)) {
             $this->addToKernel();
 
-            return 1; // add to kernal
+            return 1; // add to kernel
         }
 
         return 2; // already in kernel
+    }
+
+    /**
+     * @param $outpuPath
+     * @param $namespace
+     * @param $bundleName
+     *
+     * @return int
+     */
+    public function deleteBundle($outpuPath, $namespace, $bundleName)
+    {
+        $this->namespace = $namespace;
+        $this->bundleName = $bundleName;
+        if (!$this->filesystem->exists($outpuPath)) {
+            return false;
+        }
+        $namespacePath = realpath($outpuPath.'../');
+        $this->filesystem->remove($outpuPath);
+        if (count(scandir($namespacePath)) == 2) {
+            $this->filesystem->remove($namespacePath);
+        }
+        if ($this->bundleExists($namespace.$bundleName)) {
+            $this->removeToKernel();
+
+            return 1; // remove to kernel
+        }
+
+        return 2; // not in kernel
     }
 
     /**
@@ -58,7 +84,7 @@ class BundleGenerator extends Generator
      */
     private function addToKernel()
     {
-        $kernelManipulator = new KernelManipulator($this->container->get('kernel'));
+        $kernelManipulator = new SwaggerKernelManipulator($this->container->get('kernel'));
         $kernelManipulator->addBundle($this->namespace.'\\'.$this->bundleName.'\\'.$this->namespace.$this->bundleName);
     }
 
@@ -73,5 +99,14 @@ class BundleGenerator extends Generator
             $bundleName,
             $this->container->get('kernel')->getBundles()
         );
+    }
+
+    /**
+     *
+     */
+    private function removeToKernel()
+    {
+        $kernelManipulator = new SwaggerKernelManipulator($this->container->get('kernel'));
+        $kernelManipulator->removeBundle($this->namespace.'\\'.$this->bundleName.'\\'.$this->namespace.$this->bundleName);
     }
 }
