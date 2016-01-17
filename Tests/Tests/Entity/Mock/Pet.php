@@ -7,7 +7,7 @@
  * Time: 11:07
  * To change this template use File | Settings | File Templates.
  */
-namespace  Enneite\SwaggerBundle\Tests\Entity\Mock;
+namespace  Enneite\SwaggerBundle\Tests\Tests\Entity\Mock;
 
 use Enneite\SwaggerBundle\Entity\EntityInterface;
 

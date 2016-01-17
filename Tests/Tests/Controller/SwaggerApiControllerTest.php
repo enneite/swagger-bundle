@@ -1,11 +1,11 @@
 <?php
 
-namespace Enneite\SwaggerBundle\Tests\Controller;
+namespace Enneite\SwaggerBundle\Tests\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Enneite\SwaggerBundle\Controller\SwaggerApiController;
-use Enneite\SwaggerBundle\Tests\Controller\Mock\FormType;
+use Enneite\SwaggerBundle\Tests\Tests\Controller\Mock\FormType;
 
 class SwaggerApiControllerTest extends WebTestCase
 {

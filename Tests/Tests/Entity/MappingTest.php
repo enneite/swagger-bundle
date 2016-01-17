@@ -7,14 +7,14 @@
  * Time: 18:30
  * To change this template use File | Settings | File Templates.
  */
-namespace Enneite\SwaggerBundle\Tests\Mapping;
+namespace Enneite\SwaggerBundle\Tests\Tests\Mapping;
 
 include_once __DIR__.'/Mock/Pet.php';
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Enneite\SwaggerBundle\Entity\Mapping;
-use Enneite\SwaggerBundle\Tests\Entity\Mock\Pet;
-use Enneite\SwaggerBundle\Tests\Entity\Mock\Article;
+use Enneite\SwaggerBundle\Tests\Tests\Entity\Mock\Pet;
+use Enneite\SwaggerBundle\Tests\Tests\Entity\Mock\Article;
 
 class MappingTest extends WebTestCase
 {

@@ -1,0 +1,13 @@
+# Tests/Controller/App/config.yml
+framework:
+    secret: test
+    session:
+        storage_id: session.storage.mock_file
+
+enneite_swagger:
+    api:
+        config_file: %kernel.root_dir%/config/swaggerApi.yml
+        routing_prefix: apienneite_swagger:
+    api:
+        config_file: %kernel.root_dir%/config/swaggerApi.yml
+        routing_prefix: api

@@ -24,10 +24,7 @@ class RouterGenerator extends Generator
      */
     public function createYamlConf($verb, $objects, $pathName, $bundleName, $className)
     {
-        $parameters = array();
-        $parameters['name'] = preg_replace('/[^a-zA-Z0-9]+/', '_', $pathName);
-        $parameters['name'] = trim($parameters['name'], '_');
-        $parameters['name'] .= '_'.$verb;
+        $parameters = $this->getRouteParametersAsArray($verb, $objects, $pathName);
 
         $conf = '';
         if (isset($objects['description'])) {
@@ -100,5 +97,15 @@ class RouterGenerator extends Generator
         }
         $kernelManipulator = new RoutingManipulator($this->container->getParameter('kernel.root_dir').'/config/routing.yml');
         $kernelManipulator->addResource($bundleName, 'yml', $prefix);
+    }
+
+    public function getRouteParametersAsArray($verb, $pathName)
+    {
+        $parameters = array();
+        $parameters['name'] = preg_replace('/[^a-zA-Z0-9]+/', '_', $pathName);
+        $parameters['name'] = trim($parameters['name'], '_');
+        $parameters['name'] .= '_'.$verb;
+
+        return $parameters;
     }
 }

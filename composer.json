@@ -10,7 +10,10 @@
         }
     ],
     "autoload":     {
-        "psr-4": { "Enneite\\SwaggerBundle\\": "" }
+        "psr-4": {
+            "Enneite\\SwaggerBundle\\": "",
+            "testNamespace\\testBundleName\\": "Tests/src/testNamespace/testBundleName/"
+        }
     },
     "repositories": [
         {

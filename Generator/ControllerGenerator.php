@@ -16,34 +16,11 @@ class ControllerGenerator extends Generator
     private $outputPath;
     private $entityGenerator;
 
-    /**
-     * @return mixed
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOutputPath()
-    {
-        return $this->outputPath;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getClassName()
-    {
-        return $this->className;
-    }
-
     public function __construct($container, $filesystem)
     {
         parent::__construct($container, $filesystem);
         $this->entityGenerator = $this->container->get('enneite_swagger.entity_generator');
+        $this->routerGenerator = $this->container->get('enneite_swagger.router_generator');
     }
 
     /**
@@ -267,9 +244,6 @@ class ControllerGenerator extends Generator
             $entity = $this->getAssociatedCollection($response);
             $entity = str_replace('Collection', '', $entity);
             $method = 'buildCollection';
-        } elseif ($this->hasResponseSchema($response)) {
-            $entity = null;
-            $method = null;
         } else {
             $entity = null;
             $method = null;
@@ -337,7 +311,7 @@ class ControllerGenerator extends Generator
     {
         return array(
             'description' => (isset($objects['description'])) ? $objects['description'] : 'empty',
-            'routing' => ($buildRoutingAnnotations) ? $this->getRoutingAnnotation($verb, $objects, $pathName) : null,
+            'routing' => ($buildRoutingAnnotations) ? $this->getRoutingAnnotation($verb, $pathName) : null,
             'params' => $this->getActionArguments($verb, $objects),
         );
     }
@@ -349,11 +323,11 @@ class ControllerGenerator extends Generator
      * @param $objects
      * @param $pathName
      */
-    public function getRoutingAnnotation($verb, $objects, $pathName)
+    public function getRoutingAnnotation($verb, $pathName)
     {
         return array(
             'route' => $pathName,
-//            'parameters' => $this->apiRoutingCreator->getRouteParametersAsArray($verb, $objects, $pathName),
+            'parameters' => $this->routerGenerator->getRouteParametersAsArray($verb, $pathName),
             'method' => strtoupper($verb),
         );
     }

@@ -7,7 +7,7 @@
  * Time: 10:42
  * To change this template use File | Settings | File Templates.
  */
-namespace Enneite\SwaggerBundle\Tests\Controller\Mock;
+namespace Enneite\SwaggerBundle\Tests\Tests\Controller\Mock;
 
 //SwaggerBundle\Tests\Controller\Mock\ProductController
 
