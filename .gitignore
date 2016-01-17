@@ -3,3 +3,5 @@
 composer.phar
 vendor
 Tests/coverage
+Tests/app/cache
+Tests/app/logs
